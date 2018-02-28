@@ -1,0 +1,96 @@
+// Base plugin for task rule "clean <task>"
+apply plugin: 'base'
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+//Clean previously generated sources
+task cleanWsdlGeneratedContract(type: Delete){
+    delete fileTree("${projectDir}/generated") {
+        include '**/*.*'
+    }
+    delete fileTree("${projectDir}/src/main/resources/contracts/exchange-rates/") {
+        include '*/*.*'
+        exclude "ExchangeRates.zip"
+    }
+}
+
+//Unzip
+task unzipWebServiceContract(type: Copy){
+    dependsOn cleanWsdlGeneratedContract
+    def zipFile = file("${projectDir}/src/main/resources/contracts/exchange-rates/ExchangeRates.zip")
+    def outputZipDir = file("${projectDir}/generated/contracts/exchange-rates")
+    from zipTree(zipFile)
+    into outputZipDir
+}
+
+task genJaxb {
+	dependsOn unzipWebServiceContract
+    ext.sourcesDir = "${projectDir}/generated/sources/jaxb"
+    ext.classesDir = "${projectDir}/generated/classes/jaxb"
+    ext.schemaDir = "${projectDir}/generated/contracts/exchange-rates"
+
+    outputs.dir classesDir
+
+    doLast() {
+        project.ant {
+            taskdef name: "xjc", classname: "com.sun.tools.xjc.XJCTask",
+                    classpath: configurations.jaxb.asPath
+            mkdir(dir: sourcesDir)
+            mkdir(dir: classesDir)
+
+            xjc(destdir: sourcesDir) {
+                schema(dir: schemaDir, includes: "**/*.wsdl")
+				//schema(dir: schemaDir, includes: "**/*.xsd")
+                arg(value: "-wsdl")
+                produces(dir: sourcesDir, includes: "**/*.java")
+            }
+
+            javac(destdir: classesDir, source: 1.8, target: 1.8, debug: true,
+                    debugLevel: "lines,vars,source",
+                    classpath: configurations.jaxb.asPath,
+                    includeantruntime: "false") {
+                src(path: sourcesDir)
+                include(name: "**/*.java")
+                include(name: "*.java")
+            }
+
+            copy(todir: classesDir) {
+                fileset(dir: sourcesDir, erroronmissingdir: false) {
+                    exclude(name: "**/*.java")
+                }
+            }
+        }
+    }
+}
+
+jar {
+    baseName = 'exchange-rates-contract'
+    version = '0.0.1'
+	exclude('contracts/**') //exclude .zip file from src/main/resources/contracts/exchange-rates/
+    from genJaxb.classesDir
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+configurations {
+    jaxb
+}
+
+dependencies {
+    //compile("com.google.code.gson:gson:2.8")
+    //compile("commons-lang:commons-lang:2.6")
+    //compile("commons-collections:commons-collections:3.2.1")
+    //compile("commons-codec:commons-codec:1.10")
+    //compile("commons-io:commons-io:2.4")
+    //compile("org.springframework.ws:spring-ws-core:2.2.1.RELEASE")
+    //compile("wsdl4j:wsdl4j:1.6.1")
+	jaxb("com.sun.xml.bind:jaxb-xjc:2.2.6")
+    jaxb("com.sun.xml.bind:jaxb-impl:2.2.6")
+    jaxb("javax.xml.bind:jaxb-api:2.2.6")	
+    compile(files(genJaxb.classesDir).builtBy(genJaxb))
+}
