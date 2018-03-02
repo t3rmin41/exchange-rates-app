@@ -6,6 +6,7 @@ import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
@@ -37,6 +38,14 @@ public class SOAPConnectorTest {
     logger.info("{}", actualResponse.getGetExchangeRatesByDateResult().getContent());
     assertEquals(expectedResponse.getClass(), actualResponse.getClass());
   }
-  /**/
+  
+  @Test
+  public void checkListOfCurrenciesRetrieval() {
+    GetListOfCurrencies request = new GetListOfCurrencies();
+    GetListOfCurrenciesResponse expectedResponse = new GetListOfCurrenciesResponse();
+    GetListOfCurrenciesResponse actualResponse = (GetListOfCurrenciesResponse) soapConnector.callWebService(request);
+    logger.info("{}", actualResponse.getGetListOfCurrenciesResult().getContent());
+    assertEquals(expectedResponse.getClass(), actualResponse.getClass());
+  }
   
 }
