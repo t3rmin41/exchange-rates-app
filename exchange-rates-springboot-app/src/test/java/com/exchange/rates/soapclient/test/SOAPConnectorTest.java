@@ -13,9 +13,13 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import com.exchange.rates.config.ApplicationConfig;
 import com.exchange.rates.config.SOAPConfig;
 import com.exchange.rates.soapclient.SOAPConnector;
+import com.sun.org.apache.xerces.internal.dom.ElementImpl;
 import lt.lb.webservices.exchangerates.GetExchangeRate;
 import lt.lb.webservices.exchangerates.GetExchangeRateResponse;
 import lt.lb.webservices.exchangerates.GetExchangeRatesByDate;
@@ -49,25 +53,22 @@ public class SOAPConnectorTest {
     GetListOfCurrenciesResponse response = new GetListOfCurrenciesResponse();
     GetListOfCurrenciesResponse expectedResponse = new GetListOfCurrenciesResponse();
     GetListOfCurrenciesResponse actualResponse = (GetListOfCurrenciesResponse) soapConnector.callWebService(request);
-    try {
-      Object content = actualResponse.getGetListOfCurrenciesResult().getContent();
-      Field field = GetListOfCurrenciesResult.class.getDeclaredField("content");
-      field.setAccessible(true);
-      Object value = field.get(actualResponse.getGetListOfCurrenciesResult());
-      logger.info("{}", value);
-      List<Object> contentValue = (List) value;
-      logger.info("{}", contentValue.get(0));
-      Field[] fields = contentValue.get(0).getClass().getFields();
-      //List<Object> list = (List) contentValue.get(0);
-      logger.info("{}", fields);
-    } catch (NoSuchFieldException e) {
-      logger.error("{}", e.getStackTrace());
-    } catch (SecurityException e) {
-      logger.error("{}", e.getStackTrace());
-    } catch (IllegalAccessException e) {
-      logger.error("{}", e.getStackTrace());
+    
+    List<Object> content = actualResponse.getGetListOfCurrenciesResult().getContent();
+    Object firstElement = content.get(0);
+    ElementImpl element = (ElementImpl) firstElement;
+    NodeList currenciesNodeList = element.getChildNodes();
+    Node firstCurrencyNode = currenciesNodeList.item(0);
+    int nodeListLength = currenciesNodeList.getLength();
+
+    String engDesc = firstCurrencyNode.getChildNodes().item(0).getChildNodes().item(1).getNodeValue();
+    
+    String currencyCode = firstCurrencyNode.getChildNodes().item(0).getChildNodes().item(0).getNodeValue();
+    
+    for (int i = 0; i < currenciesNodeList.getLength(); i++) {
+      logger.info("{}", currenciesNodeList.item(i).getChildNodes().item(0).getChildNodes().item(0).getNodeValue());
     }
-    logger.info("{}", actualResponse.getGetListOfCurrenciesResult().getContent());
+    
     assertEquals(expectedResponse.getClass(), actualResponse.getClass());
   }
   
