@@ -12,7 +12,7 @@
       var ctrl = this;
 
       $scope.tabs = [ 
-                      { id: '0', title: 'Users', path: 'app/views/user.html', ctrl : 'UserController', reloadEvent: 'UserReload' }
+                      { id: '0', title: 'Currencies', path: 'app/views/currency.html', ctrl : 'CurrencyController', reloadEvent: 'CurrencyReload' }
                      ];
       
       $scope.currentTab = $scope.tabs[0];

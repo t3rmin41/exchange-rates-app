@@ -1,24 +1,4 @@
-<div ng-show="authenticated" class="container">
-    <div class="row">
-        <div class="col-sm-9">
-            <h3>Exchange rates app</h3>
-        </div>
-		<!--
-        <div class="col-sm-9">
-             <div class="alert alert-danger" ng-show="$root.httpErrorMessage"> {{ $root.httpErrorMessage }} </div>
-        </div>
-		-->
-        <div class="col-sm-9">
-        <ul class="nav navbar-nav">
-            <li class="dropdown">
-                <a href="#/" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> {{ user.firstName }} {{ user.lastName }} <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <li><a ng-click="logout()">Logout</a></li>
-                </ul>
-            </li>
-        </ul>
-        </div>
-    </div>
+<div class="container">
     <div ng-controller="TabsController" class="row">
         <nav>
         <ul class="nav nav-tabs">
@@ -32,3 +12,4 @@
         </div>
     </div>
 </div>
+
