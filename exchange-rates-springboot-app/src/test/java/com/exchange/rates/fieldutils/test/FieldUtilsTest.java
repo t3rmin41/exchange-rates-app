@@ -40,7 +40,7 @@ public class FieldUtilsTest {
   @Autowired
   private SOAPConnector soapConnector;
   
-  //@Ignore
+  @Ignore
   @Test
   public void testGetAllFieldsList() {
 
