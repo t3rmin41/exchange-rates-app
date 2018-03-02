@@ -1,16 +1,20 @@
 package com.exchange.rates.bean;
 
-public class Currency {
+import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-  private String currencyCode;
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class Currency implements Serializable {
+
+  private String code;
   private String descriptionLT;
   private String descriptionEN;
 
-  public String getCurrencyCode() {
-    return currencyCode;
+  public String getCode() {
+    return code;
   }
-  public void setCurrencyCode(String currencyCode) {
-    this.currencyCode = currencyCode;
+  public void setCode(String currencyCode) {
+    this.code = currencyCode;
   }
   public String getDescriptionLT() {
     return descriptionLT;
