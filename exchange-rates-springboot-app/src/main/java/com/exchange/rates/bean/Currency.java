@@ -21,4 +21,15 @@ public class Currency implements Serializable {
     return descriptions;
   }
   
+  @Override
+  public String toString() {
+    String objectInfo = "";
+    objectInfo = "[Currency = (code = " + code + ", descriptions = {";
+    while(descriptions.iterator().hasNext()) {
+      objectInfo += "(lang="+ descriptions.iterator().next().getLanguage() +"|desc=" + descriptions.iterator().next().getDescription()+")";
+    }
+    objectInfo += "}]";
+    return objectInfo;
+  }
+  
 }

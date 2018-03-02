@@ -9,6 +9,16 @@ public class CurrencyDescription implements Serializable {
   private String language;
   private String description;
 
+  public CurrencyDescription() {
+    this.language = "";
+    this.description = "";
+  }
+  
+  public CurrencyDescription(String lang, String desc) {
+    this.language = lang;
+    this.description = desc;
+  }
+  
   public String getLanguage() {
     return language;
   }
