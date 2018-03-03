@@ -5,7 +5,7 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CurrencyRate implements Serializable {
+public class CurrencyRate implements Comparable<CurrencyRate>, Serializable {
 
   private Date actualDate;
   private Date comparedDate;
@@ -56,6 +56,12 @@ public class CurrencyRate implements Serializable {
   }
   public void setChange(Double change) {
     this.change = change;
+  }
+
+  @Override
+  public int compareTo(CurrencyRate o) {
+    // TODO Auto-generated method stub
+    return 0;
   }
 
 }
