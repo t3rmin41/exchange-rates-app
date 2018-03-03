@@ -36,7 +36,7 @@ public class SOAPConfig {
     template.setDefaultUri(SOAP_WEBSERVICE_URL);
     
     Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
-    marshaller.setPackagesToScan("lt.lb.webservices.exchangerates");
+    marshaller.setContextPath("lt.lb.webservices.exchangerates");
     try {
       marshaller.afterPropertiesSet();
     } catch (Exception e) {
