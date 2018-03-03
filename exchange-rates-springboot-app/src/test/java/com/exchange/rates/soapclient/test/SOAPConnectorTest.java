@@ -1,7 +1,6 @@
 package com.exchange.rates.soapclient.test;
 
 import static org.junit.Assert.assertEquals;
-import java.lang.reflect.Field;
 import java.util.LinkedList;
 import java.util.List;
 import org.junit.Ignore;
@@ -10,7 +9,6 @@ import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
@@ -24,13 +22,10 @@ import com.sun.org.apache.xerces.internal.dom.ElementImpl;
 
 import com.exchange.rates.bean.Currency;
 import com.exchange.rates.bean.CurrencyDescription;
-import lt.lb.webservices.exchangerates.GetExchangeRate;
-import lt.lb.webservices.exchangerates.GetExchangeRateResponse;
 import lt.lb.webservices.exchangerates.GetExchangeRatesByDate;
 import lt.lb.webservices.exchangerates.GetExchangeRatesByDateResponse;
 import lt.lb.webservices.exchangerates.GetListOfCurrencies;
 import lt.lb.webservices.exchangerates.GetListOfCurrenciesResponse;
-import lt.lb.webservices.exchangerates.GetListOfCurrenciesResponse.GetListOfCurrenciesResult;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes= {ApplicationConfig.class, SOAPConfig.class}, loader=AnnotationConfigContextLoader.class)

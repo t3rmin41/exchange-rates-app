@@ -23,6 +23,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import com.exchange.rates.bean.Currency;
+import com.exchange.rates.bean.CurrencyDescription;
 import com.exchange.rates.config.ApplicationConfig;
 import com.exchange.rates.config.SOAPConfig;
 import com.exchange.rates.soapclient.SOAPConnector;
@@ -47,12 +48,17 @@ public class FieldUtilsTest {
     GetListOfCurrencies request = new GetListOfCurrencies();
     GetListOfCurrenciesResponse actualResponse = (GetListOfCurrenciesResponse) soapConnector.callWebService(request);
     List<Object> content = actualResponse.getGetListOfCurrenciesResult().getContent();
-
+    CurrencyDescription description = new CurrencyDescription("en", "U.S. dollar");
     try {
       Field field = actualResponse.getGetListOfCurrenciesResult().getClass().getDeclaredField("content");
       field.setAccessible(true);
       Object value = field.get(actualResponse.getGetListOfCurrenciesResult());
       logger.info("{}", value);
+      Field privateField = description.getClass().getDeclaredField("language");
+      privateField.setAccessible(true);
+      Object privateValue = privateField.get(description);
+      String privateString = (String) privateValue;
+      logger.info("{}", privateString);
     } catch (NoSuchFieldException | IllegalAccessException | SecurityException e) {
       e.printStackTrace();
       //logger.error("{}", e.printStackTrace());
