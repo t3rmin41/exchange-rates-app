@@ -9,6 +9,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import com.exchange.rates.bean.Currency;
 import com.exchange.rates.bean.CurrencyRate;
 
 @Service
@@ -29,11 +30,19 @@ public class CurrencyRateMapperImpl implements CurrencyRateMapper {
   }
 
   /*
-  private List<CurrencyRate> sampleCompare() {
+  private List<CurrencyRate> sampleCompare(List<CurrencyRate> before, List<CurrencyRate> after) {
     List<CurrencyRate> sampleList = new LinkedList<CurrencyRate>();
-    
-    Date april2013 = new Date(2013, 4, 1); 
-    Date may2013 = new Date(2013, 4, 1);
+
+    Date april2013 = new Date();
+    Date may2013 = new Date();
+    String formattedApril = "2013-04-01";
+    String formattedMay = "2013-05-01";
+    try {
+      april2013 = new SimpleDateFormat("yyyy-MM-dd").parse(formattedApril);
+      may2013 = new SimpleDateFormat("yyyy-MM-dd").parse(formattedMay);
+    } catch (ParseException e) {
+      logger.error("{}", e.getCause());
+    }
     
     CurrencyRate usdApril = new CurrencyRate();
     usdApril.setActualDate(april2013);
@@ -48,6 +57,23 @@ public class CurrencyRateMapperImpl implements CurrencyRateMapper {
     usdMay.setQuantity(new Double("1"));
     usdMay.setRate(new Double("2.6433"));
     usdMay.setUnit("LTL per 1 currency unit");
+    
+    CurrencyRate eurApril = new CurrencyRate();
+    eurApril.setActualDate(april2013);
+    eurApril.setCode("EUR");
+    eurApril.setQuantity(new Double("1"));
+    eurApril.setRate(new Double("3.4528"));
+    eurApril.setUnit("LTL per 1 currency unit");
+
+    CurrencyRate eurMay = new CurrencyRate();
+    eurMay.setActualDate(may2013);
+    eurMay.setCode("EUR");
+    eurMay.setQuantity(new Double("1"));
+    eurMay.setRate(new Double("3.4528"));
+    eurMay.setUnit("LTL per 1 currency unit");
+    
+    before.add(eurApril); before.add(usdApril);
+    after.add(eurMay); after.add(usdMay);
   }
   /**/
   
@@ -64,14 +90,14 @@ public class CurrencyRateMapperImpl implements CurrencyRateMapper {
 
     CurrencyRate eurMay = new CurrencyRate();
     eurMay.setActualDate(may2013);
-    eurMay.setCode("EUR");
+    eurMay.setCurrency(new Currency().setCode("EUR"));
     eurMay.setQuantity(new Double("1"));
     eurMay.setRate(new Double("3.4528"));
     eurMay.setUnit("LTL per 1 currency unit");
 
     CurrencyRate usdMay = new CurrencyRate();
     usdMay.setActualDate(may2013);
-    usdMay.setCode("USD");
+    usdMay.setCurrency(new Currency().setCode("USD"));
     usdMay.setQuantity(new Double("1"));
     usdMay.setRate(new Double("2.6433"));
     usdMay.setUnit("LTL per 1 currency unit");

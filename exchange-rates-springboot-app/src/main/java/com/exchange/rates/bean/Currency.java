@@ -14,8 +14,9 @@ public class Currency implements Serializable {
   public String getCode() {
     return code;
   }
-  public void setCode(String currencyCode) {
+  public Currency setCode(String currencyCode) {
     this.code = currencyCode;
+    return this;
   }
   public List<CurrencyDescription> getDescriptions() {
     return descriptions;
