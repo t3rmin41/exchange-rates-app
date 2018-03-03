@@ -11,8 +11,8 @@
       </tr>
       <tr data-ng-repeat="currency in currencies | filter:currencysearch" >
         <td>{{currency.code}}</td>
-        <td>{{currency.descriptionEN}}</td>
-        <td>{{currency.descriptionLT}}</td>
+        <td>{{currency.descriptions[0].description}}</td>
+        <td>{{currency.descriptions[1].description}}</td>
       </tr>
     </tbody>
   </table>

@@ -68,7 +68,7 @@ task genJaxb {
 jar {
     baseName = 'exchange-rates-contract'
     version = '0.0.1'
-	exclude('contracts/**') //exclude .zip file from src/main/resources/contracts/exchange-rates/
+	exclude('contracts/**') //exclude contents from src/main/resources/contracts/**
     from genJaxb.classesDir
 }
 
