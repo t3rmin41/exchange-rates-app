@@ -20,8 +20,6 @@ public class CurrencyMapperImpl implements CurrencyMapper {
 
   @Override
   public List<Currency> getAllCurrencies() {
-    List<Currency> currencyList = new LinkedList<Currency>();
-    
     GetListOfCurrencies request = new GetListOfCurrencies();
     GetListOfCurrenciesResponse actualResponse = (GetListOfCurrenciesResponse) soapConnector.callWebService(request);
     
@@ -30,6 +28,12 @@ public class CurrencyMapperImpl implements CurrencyMapper {
     ElementImpl element = (ElementImpl) firstElement;
     NodeList currenciesNodeList = element.getChildNodes();
 
+    //return getCurrenciesFromExternalWebserviceLightweight(currenciesNodeList);
+    return getCurrenciesFromExternalWebservice(currenciesNodeList);
+  }
+  
+  private List<Currency> getCurrenciesFromExternalWebserviceLightweight(NodeList currenciesNodeList) {
+    List<Currency> currencyList = new LinkedList<Currency>();
     for (int i = 0; i < currenciesNodeList.getLength(); i++) {
       Currency currency = new Currency();
       currency.setCode(currenciesNodeList.item(i).getChildNodes().item(0).getChildNodes().item(0).getNodeValue());
@@ -41,6 +45,25 @@ public class CurrencyMapperImpl implements CurrencyMapper {
           new CurrencyDescription(currenciesNodeList.item(i).getChildNodes().item(2).getAttributes().item(0).getNodeValue(),
                                   currenciesNodeList.item(i).getChildNodes().item(2).getChildNodes().item(0).getNodeValue()
                                  ));
+      currencyList.add(currency);
+    }
+    return currencyList;
+  }
+  
+  private List<Currency> getCurrenciesFromExternalWebservice(NodeList currenciesNodeList) {
+    List<Currency> currencyList = new LinkedList<Currency>();
+    for (int i = 0; i < currenciesNodeList.getLength(); i++) {
+      Currency currency = new Currency();
+      for (int j = 0; j < currenciesNodeList.item(i).getChildNodes().getLength(); j++) {
+        if ("currency".equals(currenciesNodeList.item(i).getChildNodes().item(j).getNodeName())) {
+          currency.setCode(currenciesNodeList.item(i).getChildNodes().item(j).getChildNodes().item(0).getNodeValue());
+        } else if ("description".equals(currenciesNodeList.item(i).getChildNodes().item(j).getNodeName())) {
+          CurrencyDescription description = new CurrencyDescription();
+          description.setLanguage(currenciesNodeList.item(i).getChildNodes().item(j).getAttributes().item(0).getNodeValue());
+          description.setDescription(currenciesNodeList.item(i).getChildNodes().item(j).getChildNodes().item(0).getNodeValue());
+          currency.getDescriptions().add(description);
+        }
+      }
       currencyList.add(currency);
     }
     return currencyList;
