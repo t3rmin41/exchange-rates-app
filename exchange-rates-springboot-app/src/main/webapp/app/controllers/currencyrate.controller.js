@@ -11,9 +11,11 @@
 
     var ctrl = this;
 
+    ctrl.opened = false;
+    
     $scope.currencyRates = [];
     
-    $scope.datePicked = new Date();
+    $scope.datePicked = "";
 
     $scope.opened = true;
     
@@ -21,11 +23,15 @@
         opened: false
     }
 
-    $scope.open = function($event) {
+    $scope.myDate = new Date();
+    
+    ctrl.open = function($event) {
         $event.preventDefault();
         $event.stopPropagation();
         $scope.opened = true;
         $scope.status.opened = true;
+        ctrl.opened = true;
+        console.log("Datepicker clicked")
         //$scope.$parent.opened = true;
         //$timeout(function () {
         //    $scope.opened = true;

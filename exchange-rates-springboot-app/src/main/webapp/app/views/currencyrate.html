@@ -5,16 +5,16 @@
     </div>
     <div class="col-xs-3">
       <label for="datePicked">Date
-
+      
       <p class="input-group">
       <input id="datePicked" placeholder="yyyy-mm-dd"  type="text" datepicker-popup="yyyy-MM-dd" 
              ng-model="datePicked"
-             is-open="status.opened" close-text="Close" class="form-control"/>
+             is-open="$ctrl.opened" close-text="Close" class="form-control"/>
       <span class="input-group-btn">
-        <button type="button" ng-click="open($event)" class="btn btn-default"><i class="glyphicon glyphicon-calendar"></i></button>
+        <!-- <button type="button" ng-click="$ctrl.open($event)" class="btn btn-default"><i class="glyphicon glyphicon-calendar"></i></button> -->
       </span>
       </p>
-      <!-- -->
+       <!-- -->
       <!-- 
       <p class="input-group">
       <input type="text" class="form-control" datepicker-popup ng-model="datePicked" is-open="$parent.status.opened"/>
