@@ -62,34 +62,35 @@ public class CurrencyRate implements Comparable<CurrencyRate>, Serializable {
     this.difference = change;
   }
   public String getFormattedDifference() {
-    return String.format("%."+precision+"g%n", difference);
+    this.formattedDifference = String.format("%."+precision+"g%n", difference);
+    return formattedDifference;
   }
   public void setFormattedDifference(String formattedDifference) {
     this.formattedDifference = formattedDifference;
   }
   
-  public void calculateDifference(Double previousRate, Double previousQuantity) {
-    this.difference = this.rate*this.quantity - (previousRate*previousQuantity);
+  public void calculateDifference(CurrencyRate anotherRate) {
+    this.comparedDate = anotherRate.getActualDate();
+    // negative difference means the rate has dropped, positive means the rate has raised relative to compared date rate
+    this.difference = this.rate*this.quantity - anotherRate.getQuantity()*anotherRate.getRate();
+    //if (this.comparedDate.getTime() > this.actualDate.getTime()) {
+    //  this.difference = this.rate*this.quantity - anotherRate.getQuantity()*anotherRate.getRate();
+    //} else {
+    //  this.difference = anotherRate.getQuantity()*anotherRate.getRate() - this.rate*this.quantity;
+    //}
   }
 
+  public Double getAbsoluteDifference() {
+    return Math.abs(this.difference);
+  }
+  
   @Override
   public int compareTo(CurrencyRate comparedRate) {
     if (this.difference > comparedRate.getDifference()) return 1;
     if (this.difference < comparedRate.getDifference()) return -1;
     return 0;
   }
-  
-  @Override
-  public boolean equals(Object obj) {
-    return this.currency.getCode().equalsIgnoreCase(((CurrencyRate) obj).getCurrency().getCode()); 
-  }
-  
-  @Override
-  public int hashCode() {
-    final int prime = 31;
-    return prime * rate.hashCode();
-  }
-  
+
   @Override
   public String toString() {
     String objectInfo = "";

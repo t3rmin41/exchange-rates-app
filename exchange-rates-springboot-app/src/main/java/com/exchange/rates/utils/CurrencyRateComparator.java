@@ -8,6 +8,8 @@ public class CurrencyRateComparator {
   public static final Comparator<CurrencyRate> BY_CODE = new ByCode();
   public static final Comparator<CurrencyRate> BY_DIFF_ASC = new ByDifferenceAsc();
   public static final Comparator<CurrencyRate> BY_DIFF_DESC = new ByDifferenceDesc();
+  public static final Comparator<CurrencyRate> BY_ABS_DIFF_ASC = new ByAbsoluteDifferenceAsc();
+  public static final Comparator<CurrencyRate> BY_ABS_DIFF_DESC = new ByAbsoluteDifferenceDesc();
   
   private static final int precision = 1000000;
 
@@ -29,6 +31,20 @@ public class CurrencyRateComparator {
     @Override
     public int compare(CurrencyRate o1, CurrencyRate o2) {
       return (int) ((o1.getDifference()*precision - o2.getDifference()*precision));
+    }
+  }
+  
+  private static class ByAbsoluteDifferenceAsc implements Comparator<CurrencyRate> {
+    @Override
+    public int compare(CurrencyRate o1, CurrencyRate o2) {
+      return (int) ((o2.getAbsoluteDifference()*precision - o1.getAbsoluteDifference()*precision));
+    }
+  }
+  
+  private static class ByAbsoluteDifferenceDesc implements Comparator<CurrencyRate> {
+    @Override
+    public int compare(CurrencyRate o1, CurrencyRate o2) {
+      return (int) ((o1.getAbsoluteDifference()*precision - o2.getAbsoluteDifference()*precision));
     }
   }
   
