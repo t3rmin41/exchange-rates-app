@@ -1,6 +1,8 @@
 package com.exchange.rates.bean;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -9,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class CurrencyRate implements Comparable<CurrencyRate>, Serializable {
 
   private static final int precision = 5;
+  public static final int PRECISION = 100000;
   
   private Date actualDate = new Date();
   private Date comparedDate = new Date();
@@ -22,62 +25,76 @@ public class CurrencyRate implements Comparable<CurrencyRate>, Serializable {
   public Date getActualDate() {
     return actualDate;
   }
-  public void setActualDate(Date actualDate) {
+  public CurrencyRate setActualDate(Date actualDate) {
     this.actualDate = actualDate;
+    return this;
   }
   public Date getComparedDate() {
     return comparedDate;
   }
-  public void setComparedDate(Date comparedDate) {
+  public CurrencyRate setComparedDate(Date comparedDate) {
     this.comparedDate = comparedDate;
+    return this;
   }
   public Currency getCurrency() {
     return currency;
   }
-  public void setCurrency(Currency currency) {
+  public CurrencyRate setCurrency(Currency currency) {
     this.currency = currency;
+    return this;
   }
   public Double getQuantity() {
     return quantity;
   }
-  public void setQuantity(Double quantity) {
+  public CurrencyRate setQuantity(Double quantity) {
     this.quantity = quantity;
+    return this;
   }
   public Double getRate() {
     return rate;
   }
-  public void setRate(Double rate) {
+  public CurrencyRate setRate(Double rate) {
     this.rate = rate;
+    return this;
   }
   public String getUnit() {
     return unit;
   }
-  public void setUnit(String unit) {
+  public CurrencyRate setUnit(String unit) {
     this.unit = unit;
+    return this;
   }
   public Double getDifference() {
     return this.difference;
   }
-  public void setDifference(Double change) {
+  public CurrencyRate setDifference(Double change) {
     this.difference = change;
+    return this;
   }
   public String getFormattedDifference() {
     this.formattedDifference = String.format("%."+precision+"g%n", difference);
     return formattedDifference;
   }
-  public void setFormattedDifference(String formattedDifference) {
+  public CurrencyRate setFormattedDifference(String formattedDifference) {
     this.formattedDifference = formattedDifference;
+    return this;
   }
   
-  public void calculateDifference(CurrencyRate anotherRate) {
-    this.comparedDate = anotherRate.getActualDate();
+  public CurrencyRate calculateDifference(CurrencyRate anotherCurrencyRate) {
+    this.comparedDate = anotherCurrencyRate.getActualDate();
+    BigDecimal thisRate = new BigDecimal(this.rate);
+    BigDecimal thisQuantity = new BigDecimal(this.quantity);
+    BigDecimal anotherRate = new BigDecimal(anotherCurrencyRate.getRate());
+    BigDecimal anotherQuantity = new BigDecimal(anotherCurrencyRate.getQuantity());
+    MathContext precision = new MathContext(PRECISION);
     // negative difference means the rate has dropped, positive means the rate has raised relative to compared date rate
-    this.difference = this.rate*this.quantity - anotherRate.getQuantity()*anotherRate.getRate();
+    this.difference = thisRate.divide(thisQuantity, precision).subtract(anotherRate.divide(anotherQuantity, precision), precision).doubleValue();
     //if (this.comparedDate.getTime() > this.actualDate.getTime()) {
     //  this.difference = this.rate*this.quantity - anotherRate.getQuantity()*anotherRate.getRate();
     //} else {
     //  this.difference = anotherRate.getQuantity()*anotherRate.getRate() - this.rate*this.quantity;
     //}
+    return this;
   }
 
   public Double getAbsoluteDifference() {

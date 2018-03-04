@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Currency implements Serializable {
 
   private String code;
-  List<CurrencyDescription> descriptions = new LinkedList<CurrencyDescription>();
+  private List<CurrencyDescription> descriptions = new LinkedList<CurrencyDescription>();
 
   public String getCode() {
     return code;

@@ -32,7 +32,7 @@ public class CurrencyRateTest {
     }
 
     Collections.sort(after, CurrencyRateComparator.BY_DIFF_ASC);
-    assertEquals("EUR", after.get(0).getCurrency().getCode());
+    assertEquals("PLN", after.get(0).getCurrency().getCode());
 
     Collections.sort(after, CurrencyRateComparator.BY_DIFF_DESC);
     assertEquals("USD", after.get(0).getCurrency().getCode());
@@ -68,8 +68,16 @@ public class CurrencyRateTest {
     eurApril.setRate(new Double("3.4528"));
     eurApril.setUnit("LTL per 1 currency unit");
     
+    CurrencyRate plnApril = new CurrencyRate();
+    plnApril.setActualDate(april2013);
+    plnApril.setCurrency(new Currency().setCode("PLN"));
+    plnApril.setQuantity(new Double("10"));
+    plnApril.setRate(new Double("8.2451"));
+    plnApril.setUnit("LTL per 10 currency units");
+    
     list.add(eurApril);
     list.add(usdApril);
+    list.add(plnApril);
     
     return list;
   }
@@ -99,8 +107,23 @@ public class CurrencyRateTest {
     eurMay.setRate(new Double("3.4528"));
     eurMay.setUnit("LTL per 1 currency unit");
     
+    CurrencyRate plnMay1 = new CurrencyRate();
+    plnMay1.setActualDate(may2013);
+    plnMay1.setCurrency(new Currency().setCode("PLN"));
+    plnMay1.setQuantity(new Double("1"));
+    plnMay1.setRate(new Double("0.83167"));
+    plnMay1.setUnit("LTL per 1 currency units");
+    
+    CurrencyRate plnMay2 = new CurrencyRate();
+    plnMay2.setActualDate(may2013);
+    plnMay2.setCurrency(new Currency().setCode("PLN"));
+    plnMay2.setQuantity(new Double("10"));
+    plnMay2.setRate(new Double("8.3167"));
+    plnMay2.setUnit("LTL per 10 currency units");
+    
     list.add(usdMay);
     list.add(eurMay);
+    list.add(plnMay2);
     
     return list;
   }
