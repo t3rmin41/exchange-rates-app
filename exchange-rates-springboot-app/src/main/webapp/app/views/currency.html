@@ -9,6 +9,7 @@
         <th>Description EN</th>
         <th>Description LT</th>
       </tr>
+      
       <tr data-ng-repeat="currency in currencies | filter:currencysearch" >
         <td>{{currency.code}}</td>
         <td>{{currency.descriptions[0].description}}</td>

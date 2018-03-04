@@ -1,6 +1,9 @@
-<div class="row" data-ng-controller="CurrencyRateController">
+<div class="row" data-ng-controller="CurrencyRateController as $ctrl">
   <div class="form-group">
     <input type="text" class="form-control" id="currencysearch" placeholder="Search currencies" data-ng-model="currencysearch" />
+  </div>
+  <div class="form-group">
+    <button ng-click="$ctrl.getAllCurrencies()" class="btn btn-primary">Get all currency rate changes</button>
   </div>
   <table class="table table-striped table-hover">
     <tbody>
@@ -16,7 +19,5 @@
       </tr>
     </tbody>
   </table>
-  <div class="form-group">
-    <button ng-click="getAllCurrencies()" class="btn btn-primary">Get all currencies</button>
-  </div>
+
 </div>

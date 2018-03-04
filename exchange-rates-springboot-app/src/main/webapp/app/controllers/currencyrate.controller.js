@@ -15,10 +15,9 @@
 
     ctrl.$onInit = function() {
       //console.log('CurrencyRateController initialized');
-      //ctrl.getAllCurrencies();
     };
 
-    $scope.getAllCurrencies = function() {
+    ctrl.getAllCurrencies = function() {
       ExchangeRateService.getAllCurrencies(getCurrenciesSuccessCb, ErrorController.httpGetErroCb);
     }
 
