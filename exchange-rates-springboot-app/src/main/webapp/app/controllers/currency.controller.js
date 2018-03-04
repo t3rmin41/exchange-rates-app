@@ -14,11 +14,11 @@
     $scope.currencies = [];
 
     ctrl.$onInit = function() {
-      console.log('CurrencyController initialized');
-      //ctrl.getAllCurrencies();
+      //console.log('CurrencyController initialized');
+      ctrl.getAllCurrencies();
     };
 
-    $scope.getAllCurrencies = function() {
+    ctrl.getAllCurrencies = function() {
       ExchangeRateService.getAllCurrencies(getCurrenciesSuccessCb, ErrorController.httpGetErroCb);
     }
 
