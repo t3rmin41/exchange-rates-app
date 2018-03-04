@@ -18,10 +18,10 @@ import com.exchange.rates.bean.CurrencyRate;
 import com.exchange.rates.service.ExchangeRatesService;
 
 @Controller
-@RequestMapping(value = "/currencies", produces = APPLICATION_JSON_UTF8_VALUE)
-public class ExchangeRatesController {
+@RequestMapping(value = "/currency", produces = APPLICATION_JSON_UTF8_VALUE)
+public class CurrencyController {
 
-  private static final Logger logger = LoggerFactory.getLogger(ExchangeRatesController.class);
+  private static final Logger logger = LoggerFactory.getLogger(CurrencyController.class);
   
   @Autowired
   private ExchangeRatesService exchangeRates;
@@ -31,8 +31,8 @@ public class ExchangeRatesController {
     return exchangeRates.getAllCurrencies();
   }
 
-  @RequestMapping(value = "/all/date/{formattedDate}", method = RequestMethod.GET)
-  public @ResponseBody List<CurrencyRate> getAllRatesForDate(@PathVariable("date") String formattedDate) {
+  @RequestMapping(value = "/rate/date/{formattedDate}", method = RequestMethod.GET)
+  public @ResponseBody List<CurrencyRate> getAllRatesForDate(@PathVariable("formattedDate") String formattedDate) {
     Date date = new Date();
     try {
       date = new SimpleDateFormat("yyyy-MM-dd").parse(formattedDate);
@@ -42,8 +42,8 @@ public class ExchangeRatesController {
     return exchangeRates.getCurrencyRatesForDate(date);
   }
   
-  @RequestMapping(value = "/all/date/{formattedDate}/change", method = RequestMethod.GET)
-  public @ResponseBody List<CurrencyRate> getAllRateChangesForDateComparedWithYesterday(@PathVariable("date") String formattedDate) {
+  @RequestMapping(value = "/rate/change/date/{formattedDate}", method = RequestMethod.GET)
+  public @ResponseBody List<CurrencyRate> getAllRateChangesForDateComparedWithYesterday(@PathVariable("formattedDate") String formattedDate) {
     Date date = new Date();
     try {
       date = new SimpleDateFormat("yyyy-MM-dd").parse(formattedDate);

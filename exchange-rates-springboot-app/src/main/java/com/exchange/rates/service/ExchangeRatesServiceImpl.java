@@ -30,8 +30,7 @@ public class ExchangeRatesServiceImpl implements ExchangeRatesService {
 
   @Override
   public List<CurrencyRate> getRateChangesForDateComparedWithYesterday(Date date) {
-    // TODO Auto-generated method stub
-    return null;
+    return rateMapper.getRateChangesForDateComparedWithYesterday(date);
   }
 
 }
