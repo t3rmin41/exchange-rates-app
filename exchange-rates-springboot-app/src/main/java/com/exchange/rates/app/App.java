@@ -26,7 +26,7 @@ public class App { // extends SpringBootServletInitializer {
   public static void main(String[] args) {
     SpringApplication springApplication = new SpringApplication(App.class);
     ApplicationContext context = springApplication.run(args);
-    logger.info("Context : " + context.getId());
+    logger.warn("Context : " + context.getId());
   }
   
 }
