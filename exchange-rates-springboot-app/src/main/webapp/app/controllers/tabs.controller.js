@@ -12,7 +12,8 @@
       var ctrl = this;
 
       $scope.tabs = [ 
-                      { id: '0', title: 'Currencies', path: 'app/views/currency.html', ctrl : 'CurrencyController', reloadEvent: 'CurrencyReload' }
+                      { id: '0', title: 'Currency rates', path: 'app/views/currencyrate.html', ctrl : 'CurrencyRateController', reloadEvent: 'CurrencyRateReload' },
+                      { id: '1', title: 'Currencies', path: 'app/views/currency.html', ctrl : 'CurrencyController', reloadEvent: 'CurrencyReload' }
                      ];
       
       $scope.currentTab = $scope.tabs[0];

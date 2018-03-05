@@ -7,8 +7,11 @@ import org.springframework.stereotype.Service;
 import org.w3c.dom.NodeList;
 import com.exchange.rates.bean.Currency;
 import com.exchange.rates.bean.CurrencyDescription;
+import com.exchange.rates.errorhandling.ErrorField;
+import com.exchange.rates.errorhandling.WrongRequestException;
 import com.exchange.rates.soapclient.SOAPConnector;
 import com.sun.org.apache.xerces.internal.dom.ElementImpl;
+import lt.lb.webservices.exchangerates.GetExchangeRatesByDateResponse;
 import lt.lb.webservices.exchangerates.GetListOfCurrencies;
 import lt.lb.webservices.exchangerates.GetListOfCurrenciesResponse;
 
@@ -21,18 +24,22 @@ public class CurrencyMapperImpl implements CurrencyMapper {
   @Override
   public List<Currency> getAllCurrencies() {
     GetListOfCurrencies request = new GetListOfCurrencies();
-    GetListOfCurrenciesResponse actualResponse = (GetListOfCurrenciesResponse) soapConnector.callWebService(request);
-    
+    GetListOfCurrenciesResponse actualResponse = null;
+    try {
+      actualResponse = (GetListOfCurrenciesResponse) soapConnector.callWebService(request);
+    } catch (Exception e) { // in case external webservice is faulty
+      throw new WrongRequestException(e.getMessage(), new LinkedList<ErrorField>());
+    }
+    //return convertExternalWebserviceResponseToCurrenciesLightweight(actualResponse);
+    return convertExternalWebserviceResponseToCurrencies(actualResponse);
+  }
+  
+  private List<Currency> convertExternalWebserviceResponseToCurrenciesLightweight(GetListOfCurrenciesResponse actualResponse) {
     List<Object> content = actualResponse.getGetListOfCurrenciesResult().getContent();
     Object firstElement = content.get(0);
     ElementImpl element = (ElementImpl) firstElement;
     NodeList currenciesNodeList = element.getChildNodes();
-
-    //return getCurrenciesFromExternalWebserviceLightweight(currenciesNodeList);
-    return getCurrenciesFromExternalWebservice(currenciesNodeList);
-  }
-  
-  private List<Currency> getCurrenciesFromExternalWebserviceLightweight(NodeList currenciesNodeList) {
+    
     List<Currency> currencyList = new LinkedList<Currency>();
     for (int i = 0; i < currenciesNodeList.getLength(); i++) {
       Currency currency = new Currency();
@@ -50,7 +57,12 @@ public class CurrencyMapperImpl implements CurrencyMapper {
     return currencyList;
   }
   
-  private List<Currency> getCurrenciesFromExternalWebservice(NodeList currenciesNodeList) {
+  private List<Currency> convertExternalWebserviceResponseToCurrencies(GetListOfCurrenciesResponse actualResponse) {
+    List<Object> content = actualResponse.getGetListOfCurrenciesResult().getContent();
+    Object firstElement = content.get(0);
+    ElementImpl element = (ElementImpl) firstElement;
+    NodeList currenciesNodeList = element.getChildNodes();
+    
     List<Currency> currencyList = new LinkedList<Currency>();
     for (int i = 0; i < currenciesNodeList.getLength(); i++) {
       Currency currency = new Currency();

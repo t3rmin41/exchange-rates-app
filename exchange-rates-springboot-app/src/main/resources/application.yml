@@ -2,7 +2,7 @@ spring:
     main:
         show_banner: off
     application:
-        name: com.simple.fb.app
+        name: com.exchange.rates.app
     profiles:
         active: dev
     session:

@@ -47,6 +47,7 @@ public class SOAPConnectorTest {
     assertEquals(expectedResponse.getClass(), actualResponse.getClass());
   }
   
+  @Ignore
   @Test
   public void checkListOfCurrenciesRetrievalLightweight() {
     GetListOfCurrencies request = new GetListOfCurrencies();

@@ -1,76 +1,113 @@
 package com.exchange.rates.bean;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CurrencyRate implements Comparable<CurrencyRate>, Serializable {
 
-  private static final int precision = 5;
+  public static final int PRECISION = 100000;
   
-  private Date actualDate = new Date();
-  private Date comparedDate = new Date();
+  private static final int precision = 5;
+  private static final String TZONE = "Europe/Vilnius";
+  private static final String TSTAMP_FORMAT = "yyyy-MM-dd";
+
+  private Date actualDate;
+  private Date comparedDate;
   private Currency currency;
-  private Double quantity;
-  private Double rate = new Double(0);
+  private float quantity;
+  private float rate;
   private String unit;
-  private Double difference = new Double(0);
+  private float difference;
   private String formattedDifference;
 
+  public CurrencyRate(Date date) {
+    this.actualDate = date;
+    this.comparedDate = date;
+    this.rate = 0f;
+    this.difference = 0f;
+    this.quantity = 1f;
+  }
+  
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = TSTAMP_FORMAT, timezone=TZONE)
   public Date getActualDate() {
     return actualDate;
   }
-  public void setActualDate(Date actualDate) {
+  public CurrencyRate setActualDate(Date actualDate) {
     this.actualDate = actualDate;
+    return this;
   }
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = TSTAMP_FORMAT, timezone=TZONE)
   public Date getComparedDate() {
     return comparedDate;
   }
-  public void setComparedDate(Date comparedDate) {
+  public CurrencyRate setComparedDate(Date comparedDate) {
     this.comparedDate = comparedDate;
+    return this;
   }
   public Currency getCurrency() {
     return currency;
   }
-  public void setCurrency(Currency currency) {
+  public CurrencyRate setCurrency(Currency currency) {
     this.currency = currency;
+    return this;
   }
-  public Double getQuantity() {
+  public float getQuantity() {
     return quantity;
   }
-  public void setQuantity(Double quantity) {
+  public CurrencyRate setQuantity(float quantity) {
     this.quantity = quantity;
+    return this;
   }
-  public Double getRate() {
+  public float getRate() {
     return rate;
   }
-  public void setRate(Double rate) {
+  public CurrencyRate setRate(float rate) {
     this.rate = rate;
+    return this;
   }
   public String getUnit() {
     return unit;
   }
-  public void setUnit(String unit) {
+  public CurrencyRate setUnit(String unit) {
     this.unit = unit;
+    return this;
   }
-  public Double getDifference() {
+  public float getDifference() {
     return this.difference;
   }
-  public void setDifference(Double change) {
+  public CurrencyRate setDifference(float change) {
     this.difference = change;
+    return this;
   }
   public String getFormattedDifference() {
-    return String.format("%."+precision+"g%n", difference);
+    this.formattedDifference = String.format("%."+precision+"f", difference);
+    return formattedDifference;
   }
-  public void setFormattedDifference(String formattedDifference) {
+  public CurrencyRate setFormattedDifference(String formattedDifference) {
     this.formattedDifference = formattedDifference;
+    return this;
   }
   
-  public void calculateDifference(Double previousRate, Double previousQuantity) {
-    this.difference = this.rate*this.quantity - (previousRate*previousQuantity);
+  public float getAbsoluteDifference() {
+    return Math.abs(this.difference);
   }
+  
+  public String getAbsoluteDifferenceFormatted() {
+    return String.format("%."+precision+"f", Math.abs(this.difference));
+  }
+  
+  public CurrencyRate calculateDifference(CurrencyRate anotherCurrencyRate) {
+    this.comparedDate = anotherCurrencyRate.getActualDate();
+    this.difference = this.rate/this.quantity - anotherCurrencyRate.getRate()/anotherCurrencyRate.getQuantity();
+    return this;
+  }
+
 
   @Override
   public int compareTo(CurrencyRate comparedRate) {
@@ -78,18 +115,7 @@ public class CurrencyRate implements Comparable<CurrencyRate>, Serializable {
     if (this.difference < comparedRate.getDifference()) return -1;
     return 0;
   }
-  
-  @Override
-  public boolean equals(Object obj) {
-    return this.currency.getCode().equalsIgnoreCase(((CurrencyRate) obj).getCurrency().getCode()); 
-  }
-  
-  @Override
-  public int hashCode() {
-    final int prime = 31;
-    return prime * rate.hashCode();
-  }
-  
+
   @Override
   public String toString() {
     String objectInfo = "";
