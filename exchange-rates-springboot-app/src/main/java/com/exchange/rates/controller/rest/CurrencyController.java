@@ -62,4 +62,20 @@ public class CurrencyController {
     return exchangeRates.getRateChangesForDateComparedWithPreviousDay(date);
   }
   
+  @RequestMapping(value = "/rate/change/dates/{dateFromFormatted}/{dateToFormatted}", method = RequestMethod.GET)
+  public @ResponseBody List<CurrencyRate> getAllRateChangesForDates(@PathVariable("dateFromFormatted") String dateFromFormatted, @PathVariable("dateToFormatted") String dateToFormatted) {
+    Date dateFrom = new Date();
+    Date dateTo = new Date();
+    List<ErrorField> errors = new LinkedList<ErrorField>();
+    try {
+      dateFrom = new SimpleDateFormat("yyyy-MM-dd").parse(dateFromFormatted);
+      dateTo = new SimpleDateFormat("yyyy-MM-dd").parse(dateToFormatted);
+    } catch (ParseException e) {
+      logger.error("{}", e.getMessage());
+      errors.add(new ErrorField("datePicked", "Date format must be yyyy-MM-dd"));
+      throw new WrongRequestException("Wrong request", errors);
+    }  
+    return exchangeRates.getRateChangesForDates(dateFrom, dateTo);
+  }
+  
 }

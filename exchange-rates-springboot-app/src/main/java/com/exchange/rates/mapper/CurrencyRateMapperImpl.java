@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.NodeList;
 import com.exchange.rates.bean.Currency;
-import com.exchange.rates.bean.CurrencyDescription;
 import com.exchange.rates.bean.CurrencyRate;
 import com.exchange.rates.errorhandling.ErrorField;
 import com.exchange.rates.errorhandling.WrongRequestException;
@@ -49,7 +48,7 @@ public class CurrencyRateMapperImpl implements CurrencyRateMapper, RequestValida
 
   @Override
   public List<CurrencyRate> getRateChangesForDateComparedWithPreviousDay(Date date) {
-    validateRequest(date);
+    validateRequest(date, "", "");
 
     List<CurrencyRate> before = getCurrencyRatesForDate(getPreviousDay(date));
     List<CurrencyRate> after = getCurrencyRatesForDate(date);
@@ -64,17 +63,41 @@ public class CurrencyRateMapperImpl implements CurrencyRateMapper, RequestValida
         }
       }
     }
-
     Collections.sort(after, CurrencyRateComparator.BY_ABS_DIFF_ASC);
     return after;
   }
 
   @Override
-  public List<ErrorField> validateRequest(Serializable requestData) throws WrongRequestException {
+  public List<CurrencyRate> getRateChangesForDates(Date dateFrom, Date dateTo) {
+    validateRequest(dateFrom, "", "From");
+    validateRequest(dateTo, "", "To");
+
+
+    List<CurrencyRate> before = getCurrencyRatesForDate(dateFrom);
+    List<CurrencyRate> after = getCurrencyRatesForDate(dateTo);
+    
+    
+    //List<CurrencyRate> before = generateListBefore();
+    //List<CurrencyRate> after = generateListAfter();
+
+    for (int i = 0; i < after.size(); i++) {      // in case we have some sloppy third-party webservice which returns different count of currencies 
+      for (int j = 0; j < before.size(); j++) {   // and different currency order for each API call - let's have 2 "for" loops to iterate through each currency 
+        if (after.get(i).getCurrency().getCode().equalsIgnoreCase(before.get(j).getCurrency().getCode())) { 
+          after.get(i).calculateDifference(before.get(j));
+        }
+      }
+    }
+    Collections.sort(after, CurrencyRateComparator.BY_ABS_DIFF_ASC);
+    return after;
+  }
+  
+  
+  @Override
+  public List<ErrorField> validateRequest(Serializable requestData, String prefix, String suffix) throws WrongRequestException {
     List<ErrorField> errors = new LinkedList<ErrorField>();
     Date requestedDate = (Date) requestData;
     if (requestedDate.after(getLastValidDate())) {
-      errors.add(new ErrorField("datePicked", "Date must be before 2015-01-01"));
+      errors.add(new ErrorField(prefix+"datePicked"+suffix, "Date must be before 2015-01-01"));
     }
     if (errors.size() > 0) {
       throw new WrongRequestException("Wrong date requested", errors);
@@ -201,6 +224,5 @@ public class CurrencyRateMapperImpl implements CurrencyRateMapper, RequestValida
     
     return list;
   }
-
 
 }

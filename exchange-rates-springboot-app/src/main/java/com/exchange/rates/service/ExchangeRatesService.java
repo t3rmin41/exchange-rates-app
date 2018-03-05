@@ -13,4 +13,5 @@ public interface ExchangeRatesService {
   
   List<CurrencyRate> getRateChangesForDateComparedWithPreviousDay(Date date);
   
+  List<CurrencyRate> getRateChangesForDates(Date dateFrom, Date dateTo);
 }
