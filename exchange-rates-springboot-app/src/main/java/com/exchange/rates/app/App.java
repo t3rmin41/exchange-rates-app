@@ -10,9 +10,10 @@ import org.springframework.context.annotation.Import;
 import com.exchange.rates.config.ApplicationConfig;
 import com.exchange.rates.config.MvcConfig;
 import com.exchange.rates.config.SOAPConfig;
+import com.exchange.rates.config.SwaggerConfig;
 
 @SpringBootApplication
-@Import({ApplicationConfig.class, MvcConfig.class, SOAPConfig.class})
+@Import({ApplicationConfig.class, MvcConfig.class, SOAPConfig.class, SwaggerConfig.class})
 public class App { // extends SpringBootServletInitializer {
 
   private static Logger logger = LoggerFactory.getLogger(App.class);

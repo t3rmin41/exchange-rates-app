@@ -1,7 +1,7 @@
 buildscript {
     ext {
         springBootVersion = '1.5.4.RELEASE'
-        swaggerVersion = '2.7.0'
+        swaggerVersion = '2.8.0'
         hibernateVersion = '5.2.10.Final'
         logbackVersion = '1.2.3'
         springCoreVersion = '4.3.9.RELEASE'
@@ -101,8 +101,8 @@ dependencies {
     //compile("org.postgresql:postgresql:42.2.1")
 
     // swagger
-    //compile("io.springfox:springfox-swagger:${swaggerVersion}")
-    //compile("io.springfox:springfox-swagger-ui:${swaggerVersion}")
+    compile("io.springfox:springfox-swagger2:${swaggerVersion}")
+    compile("io.springfox:springfox-swagger-ui:${swaggerVersion}")
 
     // model mapping
     //compile('org.modelmapper:modelmapper:1.1.0')
