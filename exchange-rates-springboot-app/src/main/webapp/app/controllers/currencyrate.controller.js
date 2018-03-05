@@ -16,6 +16,9 @@
     $scope.dataLoaded = true;
     $scope.currencyRates = [];
     $scope.datePicked = "";
+    $scope.datePickedFrom = "";
+    $scope.datePickedTo = "";
+
     $scope.errorMessage = undefined;
     $scope.errors = undefined;
 
@@ -48,7 +51,10 @@
     ctrl.getAllCurrencyRateChanges = function() {
       $scope.dataLoaded = false;
       var formattedDate = $scope.datePicked;
-      ExchangeRateService.getAllCurrencyRateChangesForDate(formattedDate, getCurrencyRatesSuccessCb, getCurrencyRatesErrorCb);
+      var formattedDateFrom = $scope.datePickedFrom;
+      var formattedDateTo = $scope.datePickedTo;
+      //ExchangeRateService.getAllCurrencyRateChangesForDate(formattedDate, getCurrencyRatesSuccessCb, getCurrencyRatesErrorCb);
+      ExchangeRateService.getAllCurrencyRateChangesForDifferentDates(formattedDateFrom, formattedDateTo, getCurrencyRatesSuccessCb, getCurrencyRatesErrorCb);
     }
 
     var getCurrencyRatesSuccessCb = function(data, status, headers) {

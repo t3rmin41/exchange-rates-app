@@ -1,8 +1,6 @@
 package com.exchange.rates.bean;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.math.MathContext;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -11,9 +9,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CurrencyRate implements Comparable<CurrencyRate>, Serializable {
 
-  public static final int PRECISION = 100000;
+  public static final long PRECISION = 1_000_000_000;
   
-  private static final int precision = 5;
+  private static final int DIGITS_AFTER_DOT = 5;
   private static final String TZONE = "Europe/Vilnius";
   private static final String TSTAMP_FORMAT = "yyyy-MM-dd";
 
@@ -86,7 +84,7 @@ public class CurrencyRate implements Comparable<CurrencyRate>, Serializable {
     return this;
   }
   public String getFormattedDifference() {
-    this.formattedDifference = String.format("%."+precision+"f", difference);
+    this.formattedDifference = String.format("%."+DIGITS_AFTER_DOT+"f", difference);
     return formattedDifference;
   }
   public CurrencyRate setFormattedDifference(String formattedDifference) {
@@ -99,7 +97,7 @@ public class CurrencyRate implements Comparable<CurrencyRate>, Serializable {
   }
   
   public String getAbsoluteDifferenceFormatted() {
-    return String.format("%."+precision+"f", Math.abs(this.difference));
+    return String.format("%."+DIGITS_AFTER_DOT+"f", Math.abs(this.difference));
   }
   
   public CurrencyRate calculateDifference(CurrencyRate anotherCurrencyRate) {
