@@ -104,19 +104,7 @@ public class CurrencyRate implements Comparable<CurrencyRate>, Serializable {
   
   public CurrencyRate calculateDifference(CurrencyRate anotherCurrencyRate) {
     this.comparedDate = anotherCurrencyRate.getActualDate();
-    //BigDecimal thisRate = new BigDecimal(this.rate);
-    //BigDecimal thisQuantity = new BigDecimal(this.quantity);
-    //BigDecimal anotherRate = new BigDecimal(anotherCurrencyRate.getRate());
-    //BigDecimal anotherQuantity = new BigDecimal(anotherCurrencyRate.getQuantity());
-    //MathContext precision = new MathContext(PRECISION);
-    // negative difference means the rate has dropped, positive means the rate has raised relative to compared date rate
-    //this.difference = thisRate.divide(thisQuantity, precision).subtract(anotherRate.divide(anotherQuantity, precision), precision).floatValue();
     this.difference = this.rate/this.quantity - anotherCurrencyRate.getRate()/anotherCurrencyRate.getQuantity();
-    //if (this.comparedDate.getTime() > this.actualDate.getTime()) {
-    //  this.difference = this.rate*this.quantity - anotherRate.getQuantity()*anotherRate.getRate();
-    //} else {
-    //  this.difference = anotherRate.getQuantity()*anotherRate.getRate() - this.rate*this.quantity;
-    //}
     return this;
   }
 
