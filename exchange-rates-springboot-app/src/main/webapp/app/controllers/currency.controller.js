@@ -11,7 +11,10 @@
 
     var ctrl = this;
 
+    $scope.dataLoaded = true;
     $scope.currencies = [];
+    $scope.errorMessage = undefined;
+    $scope.errors = undefined;
 
     ctrl.$onInit = function() {
       //console.log('CurrencyController initialized');
@@ -19,15 +22,25 @@
     };
 
     ctrl.getAllCurrencies = function() {
-      ExchangeRateService.getAllCurrencies(getCurrenciesSuccessCb, ErrorController.httpGetErroCb);
+      $scope.dataLoaded = false;
+      ExchangeRateService.getAllCurrencies(getCurrenciesSuccessCb, getCurrenciesErrorCb);
     }
 
     var getCurrenciesSuccessCb = function(data, status, headers) {
+        $scope.errorMessage = undefined;
+        $scope.errors = undefined;
+        $scope.dataLoaded = true;
         $scope.currencies = data;
     }
 
     var getCurrenciesErrorCb = function(data, status, headers) {
-      console.log(status);
+      //console.log(status);
+      $scope.dataLoaded = true;
+      $scope.errorMessage = data.error;
+      $scope.errors = {};
+      angular.forEach(data.errors, function(error, index){
+        $scope.errors[error.field] = error.errorMessage;
+      });
     }
   }
 })();

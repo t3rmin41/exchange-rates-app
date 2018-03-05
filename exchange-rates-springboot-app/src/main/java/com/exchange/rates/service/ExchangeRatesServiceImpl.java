@@ -29,8 +29,8 @@ public class ExchangeRatesServiceImpl implements ExchangeRatesService {
   }
 
   @Override
-  public List<CurrencyRate> getRateChangesForDateComparedWithYesterday(Date date) {
-    return rateMapper.getRateChangesForDateComparedWithYesterday(date);
+  public List<CurrencyRate> getRateChangesForDateComparedWithPreviousDay(Date date) {
+    return rateMapper.getRateChangesForDateComparedWithPreviousDay(date);
   }
 
 }

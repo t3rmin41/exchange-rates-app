@@ -5,23 +5,36 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CurrencyRate implements Comparable<CurrencyRate>, Serializable {
 
-  private static final int precision = 5;
   public static final int PRECISION = 100000;
   
-  private Date actualDate = new Date();
-  private Date comparedDate = new Date();
+  private static final int precision = 5;
+  private static final String TZONE = "Europe/Vilnius";
+  private static final String TSTAMP_FORMAT = "yyyy-MM-dd";
+
+  private Date actualDate;
+  private Date comparedDate;
   private Currency currency;
-  private Double quantity;
-  private Double rate = new Double(0);
+  private float quantity;
+  private float rate;
   private String unit;
-  private Double difference = new Double(0);
+  private float difference;
   private String formattedDifference;
 
+  public CurrencyRate(Date date) {
+    this.actualDate = date;
+    this.comparedDate = date;
+    this.rate = 0f;
+    this.difference = 0f;
+    this.quantity = 1f;
+  }
+  
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = TSTAMP_FORMAT, timezone=TZONE)
   public Date getActualDate() {
     return actualDate;
   }
@@ -29,6 +42,7 @@ public class CurrencyRate implements Comparable<CurrencyRate>, Serializable {
     this.actualDate = actualDate;
     return this;
   }
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = TSTAMP_FORMAT, timezone=TZONE)
   public Date getComparedDate() {
     return comparedDate;
   }
@@ -43,17 +57,17 @@ public class CurrencyRate implements Comparable<CurrencyRate>, Serializable {
     this.currency = currency;
     return this;
   }
-  public Double getQuantity() {
+  public float getQuantity() {
     return quantity;
   }
-  public CurrencyRate setQuantity(Double quantity) {
+  public CurrencyRate setQuantity(float quantity) {
     this.quantity = quantity;
     return this;
   }
-  public Double getRate() {
+  public float getRate() {
     return rate;
   }
-  public CurrencyRate setRate(Double rate) {
+  public CurrencyRate setRate(float rate) {
     this.rate = rate;
     return this;
   }
@@ -64,15 +78,15 @@ public class CurrencyRate implements Comparable<CurrencyRate>, Serializable {
     this.unit = unit;
     return this;
   }
-  public Double getDifference() {
+  public float getDifference() {
     return this.difference;
   }
-  public CurrencyRate setDifference(Double change) {
+  public CurrencyRate setDifference(float change) {
     this.difference = change;
     return this;
   }
   public String getFormattedDifference() {
-    this.formattedDifference = String.format("%."+precision+"g%n", difference);
+    this.formattedDifference = String.format("%."+precision+"f", difference);
     return formattedDifference;
   }
   public CurrencyRate setFormattedDifference(String formattedDifference) {
@@ -80,15 +94,24 @@ public class CurrencyRate implements Comparable<CurrencyRate>, Serializable {
     return this;
   }
   
+  public float getAbsoluteDifference() {
+    return Math.abs(this.difference);
+  }
+  
+  public String getAbsoluteDifferenceFormatted() {
+    return String.format("%."+precision+"f", Math.abs(this.difference));
+  }
+  
   public CurrencyRate calculateDifference(CurrencyRate anotherCurrencyRate) {
     this.comparedDate = anotherCurrencyRate.getActualDate();
-    BigDecimal thisRate = new BigDecimal(this.rate);
-    BigDecimal thisQuantity = new BigDecimal(this.quantity);
-    BigDecimal anotherRate = new BigDecimal(anotherCurrencyRate.getRate());
-    BigDecimal anotherQuantity = new BigDecimal(anotherCurrencyRate.getQuantity());
-    MathContext precision = new MathContext(PRECISION);
+    //BigDecimal thisRate = new BigDecimal(this.rate);
+    //BigDecimal thisQuantity = new BigDecimal(this.quantity);
+    //BigDecimal anotherRate = new BigDecimal(anotherCurrencyRate.getRate());
+    //BigDecimal anotherQuantity = new BigDecimal(anotherCurrencyRate.getQuantity());
+    //MathContext precision = new MathContext(PRECISION);
     // negative difference means the rate has dropped, positive means the rate has raised relative to compared date rate
-    this.difference = thisRate.divide(thisQuantity, precision).subtract(anotherRate.divide(anotherQuantity, precision), precision).doubleValue();
+    //this.difference = thisRate.divide(thisQuantity, precision).subtract(anotherRate.divide(anotherQuantity, precision), precision).floatValue();
+    this.difference = this.rate/this.quantity - anotherCurrencyRate.getRate()/anotherCurrencyRate.getQuantity();
     //if (this.comparedDate.getTime() > this.actualDate.getTime()) {
     //  this.difference = this.rate*this.quantity - anotherRate.getQuantity()*anotherRate.getRate();
     //} else {
@@ -97,10 +120,7 @@ public class CurrencyRate implements Comparable<CurrencyRate>, Serializable {
     return this;
   }
 
-  public Double getAbsoluteDifference() {
-    return Math.abs(this.difference);
-  }
-  
+
   @Override
   public int compareTo(CurrencyRate comparedRate) {
     if (this.difference > comparedRate.getDifference()) return 1;

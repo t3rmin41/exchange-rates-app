@@ -54,25 +54,22 @@ public class CurrencyRateTest {
       logger.error("{}", e.getCause());
     }
 
-    CurrencyRate usdApril = new CurrencyRate();
-    usdApril.setActualDate(april2013);
+    CurrencyRate usdApril = new CurrencyRate(april2013);
     usdApril.setCurrency(new Currency().setCode("USD"));
-    usdApril.setQuantity(new Double("1"));
-    usdApril.setRate(new Double("2.6984"));
+    usdApril.setQuantity(new Float("1"));
+    usdApril.setRate(new Float("2.6984"));
     usdApril.setUnit("LTL per 1 currency unit");
     
-    CurrencyRate eurApril = new CurrencyRate();
-    eurApril.setActualDate(april2013);
+    CurrencyRate eurApril = new CurrencyRate(april2013);
     eurApril.setCurrency(new Currency().setCode("EUR"));
-    eurApril.setQuantity(new Double("1"));
-    eurApril.setRate(new Double("3.4528"));
+    eurApril.setQuantity(new Float("1"));
+    eurApril.setRate(new Float("3.4528"));
     eurApril.setUnit("LTL per 1 currency unit");
     
-    CurrencyRate plnApril = new CurrencyRate();
-    plnApril.setActualDate(april2013);
+    CurrencyRate plnApril = new CurrencyRate(april2013);
     plnApril.setCurrency(new Currency().setCode("PLN"));
-    plnApril.setQuantity(new Double("10"));
-    plnApril.setRate(new Double("8.2451"));
+    plnApril.setQuantity(new Float("10"));
+    plnApril.setRate(new Float("8.2451"));
     plnApril.setUnit("LTL per 10 currency units");
     
     list.add(eurApril);
@@ -93,32 +90,28 @@ public class CurrencyRateTest {
       logger.error("{}", e.getCause());
     }
     
-    CurrencyRate usdMay = new CurrencyRate();
-    usdMay.setActualDate(may2013);
+    CurrencyRate usdMay = new CurrencyRate(may2013);
     usdMay.setCurrency(new Currency().setCode("USD"));
-    usdMay.setQuantity(new Double("1"));
-    usdMay.setRate(new Double("2.6433"));
+    usdMay.setQuantity(new Float("1"));
+    usdMay.setRate(new Float("2.6433"));
     usdMay.setUnit("LTL per 1 currency unit");
     
-    CurrencyRate eurMay = new CurrencyRate();
-    eurMay.setActualDate(may2013);
+    CurrencyRate eurMay = new CurrencyRate(may2013);
     eurMay.setCurrency(new Currency().setCode("EUR"));
-    eurMay.setQuantity(new Double("1"));
-    eurMay.setRate(new Double("3.4528"));
+    eurMay.setQuantity(new Float("1"));
+    eurMay.setRate(new Float("3.4528"));
     eurMay.setUnit("LTL per 1 currency unit");
     
-    CurrencyRate plnMay1 = new CurrencyRate();
-    plnMay1.setActualDate(may2013);
+    CurrencyRate plnMay1 = new CurrencyRate(may2013);
     plnMay1.setCurrency(new Currency().setCode("PLN"));
-    plnMay1.setQuantity(new Double("1"));
-    plnMay1.setRate(new Double("0.83167"));
+    plnMay1.setQuantity(new Float("1"));
+    plnMay1.setRate(new Float("0.83167"));
     plnMay1.setUnit("LTL per 1 currency units");
     
-    CurrencyRate plnMay2 = new CurrencyRate();
-    plnMay2.setActualDate(may2013);
+    CurrencyRate plnMay2 = new CurrencyRate(may2013);
     plnMay2.setCurrency(new Currency().setCode("PLN"));
-    plnMay2.setQuantity(new Double("10"));
-    plnMay2.setRate(new Double("8.3167"));
+    plnMay2.setQuantity(new Float("10"));
+    plnMay2.setRate(new Float("8.3167"));
     plnMay2.setUnit("LTL per 10 currency units");
     
     list.add(usdMay);

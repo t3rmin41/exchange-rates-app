@@ -13,9 +13,11 @@
 
     ctrl.opened = false;
     
+    $scope.dataLoaded = true;
     $scope.currencyRates = [];
-    
     $scope.datePicked = "";
+    $scope.errorMessage = undefined;
+    $scope.errors = undefined;
 
     $scope.opened = true;
     
@@ -44,16 +46,26 @@
     };
 
     ctrl.getAllCurrencyRateChanges = function() {
+      $scope.dataLoaded = false;
       var formattedDate = $scope.datePicked;
       ExchangeRateService.getAllCurrencyRateChangesForDate(formattedDate, getCurrencyRatesSuccessCb, getCurrencyRatesErrorCb);
     }
 
     var getCurrencyRatesSuccessCb = function(data, status, headers) {
+        $scope.errorMessage = undefined;
+        $scope.errors = undefined;
+        $scope.dataLoaded = true;
         $scope.currencyRates = data;
     }
 
     var getCurrencyRatesErrorCb = function(data, status, headers) {
-      console.log(status);
+      //console.log(status);
+      $scope.dataLoaded = true;
+      $scope.errorMessage = data.error;
+      $scope.errors = {};
+      angular.forEach(data.errors, function(error, index){
+        $scope.errors[error.field] = error.errorMessage;
+      });
     }
   }
 })();
