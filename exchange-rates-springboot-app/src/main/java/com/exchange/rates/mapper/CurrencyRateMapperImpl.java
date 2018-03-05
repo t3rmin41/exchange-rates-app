@@ -1,7 +1,6 @@
 package com.exchange.rates.mapper;
 
 import java.io.Serializable;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collections;
@@ -15,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.NodeList;
 import com.exchange.rates.bean.Currency;
-import com.exchange.rates.bean.CurrencyDescription;
 import com.exchange.rates.bean.CurrencyRate;
 import com.exchange.rates.errorhandling.ErrorField;
 import com.exchange.rates.errorhandling.WrongRequestException;
@@ -49,13 +47,10 @@ public class CurrencyRateMapperImpl implements CurrencyRateMapper, RequestValida
 
   @Override
   public List<CurrencyRate> getRateChangesForDateComparedWithPreviousDay(Date date) {
-    validateRequest(date);
+    validateRequest(date, "", "");
 
     List<CurrencyRate> before = getCurrencyRatesForDate(getPreviousDay(date));
     List<CurrencyRate> after = getCurrencyRatesForDate(date);
-
-    //List<CurrencyRate> before = generateListBefore();
-    //List<CurrencyRate> after = generateListAfter();
 
     for (int i = 0; i < after.size(); i++) {      // in case we have some sloppy third-party webservice which returns different count of currencies 
       for (int j = 0; j < before.size(); j++) {   // and different currency order for each API call - let's have 2 "for" loops to iterate through each currency 
@@ -64,17 +59,36 @@ public class CurrencyRateMapperImpl implements CurrencyRateMapper, RequestValida
         }
       }
     }
-
     Collections.sort(after, CurrencyRateComparator.BY_ABS_DIFF_ASC);
     return after;
   }
 
   @Override
-  public List<ErrorField> validateRequest(Serializable requestData) throws WrongRequestException {
+  public List<CurrencyRate> getRateChangesForDates(Date dateFrom, Date dateTo) {
+    validateRequest(dateFrom, "", "From");
+    validateRequest(dateTo, "", "To");
+
+    List<CurrencyRate> before = getCurrencyRatesForDate(dateFrom);
+    List<CurrencyRate> after = getCurrencyRatesForDate(dateTo);
+
+    for (int i = 0; i < after.size(); i++) {      // in case we have some sloppy third-party webservice which returns different count of currencies 
+      for (int j = 0; j < before.size(); j++) {   // and different currency order for each API call - let's have 2 "for" loops to iterate through each currency 
+        if (after.get(i).getCurrency().getCode().equalsIgnoreCase(before.get(j).getCurrency().getCode())) { 
+          after.get(i).calculateDifference(before.get(j));
+        }
+      }
+    }
+    Collections.sort(after, CurrencyRateComparator.BY_ABS_DIFF_ASC);
+    return after;
+  }
+  
+  
+  @Override
+  public List<ErrorField> validateRequest(Serializable requestData, String prefix, String suffix) throws WrongRequestException {
     List<ErrorField> errors = new LinkedList<ErrorField>();
     Date requestedDate = (Date) requestData;
     if (requestedDate.after(getLastValidDate())) {
-      errors.add(new ErrorField("datePicked", "Date must be before 2015-01-01"));
+      errors.add(new ErrorField(prefix+"datePicked"+suffix, "Date must be before 2015-01-01"));
     }
     if (errors.size() > 0) {
       throw new WrongRequestException("Wrong date requested", errors);
@@ -124,83 +138,5 @@ public class CurrencyRateMapperImpl implements CurrencyRateMapper, RequestValida
     lastValidCalendar.set(Calendar.MILLISECOND, 999);
     return lastValidCalendar.getTime();
   }
-  
-  private List<CurrencyRate> generateListBefore() {
-    List<CurrencyRate> list = new LinkedList<CurrencyRate>();
-    Date april2013 = new Date();
-    String formattedApril = "2013-04-01";
-    try {
-      april2013 = new SimpleDateFormat("yyyy-MM-dd").parse(formattedApril);
-    } catch (ParseException e) {
-      logger.error("{}", e.getCause());
-    }
-
-    CurrencyRate usdApril = new CurrencyRate(april2013);
-    usdApril.setCurrency(new Currency().setCode("USD"));
-    usdApril.setQuantity(new Float("1"));
-    usdApril.setRate(new Float("2.6984"));
-    usdApril.setUnit("LTL per 1 currency unit");
-    
-    CurrencyRate eurApril = new CurrencyRate(april2013);
-    eurApril.setCurrency(new Currency().setCode("EUR"));
-    eurApril.setQuantity(new Float("1"));
-    eurApril.setRate(new Float("3.4528"));
-    eurApril.setUnit("LTL per 1 currency unit");
-    
-    CurrencyRate plnApril = new CurrencyRate(april2013);
-    plnApril.setCurrency(new Currency().setCode("PLN"));
-    plnApril.setQuantity(new Float("10"));
-    plnApril.setRate(new Float("8.2451"));
-    plnApril.setUnit("LTL per 10 currency units");
-    
-    list.add(eurApril);
-    list.add(usdApril);
-    list.add(plnApril);
-    
-    return list;
-  }
-  
-  private List<CurrencyRate> generateListAfter() {
-    List<CurrencyRate> list = new LinkedList<CurrencyRate>();
-    
-    Date may2013 = new Date();
-    String formattedMay = "2013-05-01";
-    try {
-      may2013 = new SimpleDateFormat("yyyy-MM-dd").parse(formattedMay);
-    } catch (ParseException e) {
-      logger.error("{}", e.getCause());
-    }
-    
-    CurrencyRate usdMay = new CurrencyRate(may2013);
-    usdMay.setCurrency(new Currency().setCode("USD"));
-    usdMay.setQuantity(new Float("1"));
-    usdMay.setRate(new Float("2.6433"));
-    usdMay.setUnit("LTL per 1 currency unit");
-    
-    CurrencyRate eurMay = new CurrencyRate(may2013);
-    eurMay.setCurrency(new Currency().setCode("EUR"));
-    eurMay.setQuantity(new Float("1"));
-    eurMay.setRate(new Float("3.4528"));
-    eurMay.setUnit("LTL per 1 currency unit");
-    
-    CurrencyRate plnMay1 = new CurrencyRate(may2013);
-    plnMay1.setCurrency(new Currency().setCode("PLN"));
-    plnMay1.setQuantity(new Float("1"));
-    plnMay1.setRate(new Float("0.83167"));
-    plnMay1.setUnit("LTL per 1 currency units");
-    
-    CurrencyRate plnMay2 = new CurrencyRate(may2013);
-    plnMay2.setCurrency(new Currency().setCode("PLN"));
-    plnMay2.setQuantity(new Float("10"));
-    plnMay2.setRate(new Float("8.3167"));
-    plnMay2.setUnit("LTL per 10 currency units");
-    
-    list.add(usdMay);
-    list.add(eurMay);
-    list.add(plnMay2);
-    
-    return list;
-  }
-
 
 }

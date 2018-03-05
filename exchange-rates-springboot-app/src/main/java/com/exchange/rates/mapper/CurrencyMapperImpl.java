@@ -80,28 +80,5 @@ public class CurrencyMapperImpl implements CurrencyMapper {
     }
     return currencyList;
   }
-  
-  private List<Currency> sampleCurrencies() {
-    List<Currency> currencyList = new LinkedList<Currency>();
-    
-    Currency usd = new Currency();
-    usd.setCode("USD"); 
-    CurrencyDescription usdDescEN = new CurrencyDescription();
-    usdDescEN.setLanguage("EN"); usdDescEN.setDescription("U.S. Dollar");
-    CurrencyDescription usdDescLT = new CurrencyDescription();
-    usdDescLT.setLanguage("LT"); usdDescLT.setDescription("JAV doleris");
-    usd.getDescriptions().add(usdDescEN); usd.getDescriptions().add(usdDescLT);
 
-    Currency eur = new Currency();
-    eur.setCode("EUR");
-    CurrencyDescription eurDescEN = new CurrencyDescription();
-    eurDescEN.setLanguage("EN"); eurDescEN.setDescription("Euro");
-    CurrencyDescription eurDescLT = new CurrencyDescription();
-    eurDescLT.setLanguage("LT"); eurDescLT.setDescription("Euras");
-    eur.getDescriptions().add(eurDescEN); eur.getDescriptions().add(eurDescLT);
-
-    currencyList.add(usd); currencyList.add(eur);
-    return currencyList;
-  }
-  
 }

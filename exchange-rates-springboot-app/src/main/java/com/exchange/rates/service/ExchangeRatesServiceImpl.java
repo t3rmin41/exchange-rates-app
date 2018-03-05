@@ -33,4 +33,9 @@ public class ExchangeRatesServiceImpl implements ExchangeRatesService {
     return rateMapper.getRateChangesForDateComparedWithPreviousDay(date);
   }
 
+  @Override
+  public List<CurrencyRate> getRateChangesForDates(Date dateFrom, Date dateTo) {
+    return rateMapper.getRateChangesForDates(dateFrom, dateTo);
+  }
+
 }

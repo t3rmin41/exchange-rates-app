@@ -82,13 +82,6 @@ configurations {
 }
 
 dependencies {
-    //compile("com.google.code.gson:gson:2.8")
-    //compile("commons-lang:commons-lang:2.6")
-    //compile("commons-collections:commons-collections:3.2.1")
-    //compile("commons-codec:commons-codec:1.10")
-    //compile("commons-io:commons-io:2.4")
-    //compile("org.springframework.ws:spring-ws-core:2.2.1.RELEASE")
-    //compile("wsdl4j:wsdl4j:1.6.1")
 	jaxb("com.sun.xml.bind:jaxb-xjc:2.2.6")
     jaxb("com.sun.xml.bind:jaxb-impl:2.2.6")
     jaxb("javax.xml.bind:jaxb-api:2.2.6")	

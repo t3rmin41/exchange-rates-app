@@ -7,5 +7,5 @@ import com.exchange.rates.errorhandling.WrongRequestException;
 
 public interface RequestValidator {
 
-  List<ErrorField> validateRequest(Serializable requestData) throws WrongRequestException;
+  List<ErrorField> validateRequest(Serializable requestData, String prefix, String suffix) throws WrongRequestException;
 }

@@ -9,4 +9,6 @@ public interface CurrencyRateMapper {
   List<CurrencyRate> getCurrencyRatesForDate(Date date);
   
   List<CurrencyRate> getRateChangesForDateComparedWithPreviousDay(Date date);
+  
+  List<CurrencyRate> getRateChangesForDates(Date dateFrom, Date dateTo);
 }
