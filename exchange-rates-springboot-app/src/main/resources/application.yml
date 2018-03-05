@@ -4,7 +4,7 @@ spring:
     application:
         name: com.exchange.rates.app
     profiles:
-        active: dev
+        active: test
     session:
         store-type: none
 
