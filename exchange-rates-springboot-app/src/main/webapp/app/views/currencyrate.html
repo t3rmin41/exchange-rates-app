@@ -6,7 +6,7 @@
     <div class="form-group">
       <input type="text" class="form-control" id="currencyratesearch" placeholder="Search currency rates" data-ng-model="currencyratesearch" />
     </div>
-    <!-- 
+
     <div class="col-xs-3">
       <div class="form-group" ng-class="{ 'has-error' : errors['datePicked'] }">
         <label for="txtDate">Date:</label>
@@ -16,43 +16,12 @@
                is-open="$ctrl.opened" close-text="Close"
                />
         <span class="input-group-btn">
-    -->
           <!-- <button type="button" ng-click="$ctrl.open($event)" class="btn btn-default"><i class="glyphicon glyphicon-calendar"></i></button> -->
-    <!-- 
         </span>
         <p class="help-block" ng-show="errors['datePicked']"> {{ errors['datePicked'] }} </p>
       </div>
     </div>
-    -->
-    <div class="col-xs-3">
-      <div class="form-group" ng-class="{ 'has-error' : errors['datePickedFrom'] }">
-        <label for="txtDate">Date from:</label>
-        <input id="txtDate" type="text" placeholder="yyyy-MM-dd" class="form-control" 
-               datepicker-popup="yyyy-MM-dd" 
-               ng-model="datePickedFrom" 
-               is-open="$ctrl.opened" close-text="Close"
-               />
-        <span class="input-group-btn">
-          <!-- <button type="button" ng-click="$ctrl.open($event)" class="btn btn-default"><i class="glyphicon glyphicon-calendar"></i></button> -->
-        </span>
-        <p class="help-block" ng-show="errors['datePickedFrom']"> {{ errors['datePickedFrom'] }} </p>
-      </div>
-    </div>
     
-    <div class="col-xs-3">
-      <div class="form-group" ng-class="{ 'has-error' : errors['datePickedTo'] }">
-        <label for="txtDate">Date to:</label>
-        <input id="txtDate" type="text" placeholder="yyyy-MM-dd" class="form-control" 
-               datepicker-popup="yyyy-MM-dd" 
-               ng-model="datePickedTo" 
-               is-open="$ctrl.opened" close-text="Close"
-               />
-        <span class="input-group-btn">
-          <!-- <button type="button" ng-click="$ctrl.open($event)" class="btn btn-default"><i class="glyphicon glyphicon-calendar"></i></button> -->
-        </span>
-        <p class="help-block" ng-show="errors['datePickedTo']"> {{ errors['datePickedTo'] }} </p>
-      </div>
-    </div>
   </div>
   <div class="row">
     <div class="form-group">
