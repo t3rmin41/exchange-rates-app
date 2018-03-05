@@ -26,7 +26,6 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
       viewResolver.setViewClass(JstlView.class);
       viewResolver.setPrefix("/app/");
       viewResolver.setSuffix(".html");
-      //viewResolver.setSuffix(".jsp");
       return viewResolver;
   }
   
@@ -34,5 +33,4 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
   public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
       configurer.enable();
   }
-  /**/
 }

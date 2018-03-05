@@ -11,7 +11,6 @@ import com.exchange.rates.errorhandling.ErrorField;
 import com.exchange.rates.errorhandling.WrongRequestException;
 import com.exchange.rates.soapclient.SOAPConnector;
 import com.sun.org.apache.xerces.internal.dom.ElementImpl;
-import lt.lb.webservices.exchangerates.GetExchangeRatesByDateResponse;
 import lt.lb.webservices.exchangerates.GetListOfCurrencies;
 import lt.lb.webservices.exchangerates.GetListOfCurrenciesResponse;
 

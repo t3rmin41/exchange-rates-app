@@ -46,10 +46,6 @@ public class SOAPConfig {
     template.setUnmarshaller(marshaller);
     
     template.afterPropertiesSet();
-
-    //HttpComponentsMessageSender messageSender = new HttpComponentsMessageSender();
-    //UsernamePasswordCredentials credentials = new UsernamePasswordCredentials("user", "secret");
-    //messageSender.setCredentials(credentials);
     return template;
   }
 
