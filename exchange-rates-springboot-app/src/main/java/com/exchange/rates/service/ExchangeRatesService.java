@@ -11,6 +11,6 @@ public interface ExchangeRatesService {
   
   List<CurrencyRate> getCurrencyRatesForDate(Date date);
   
-  List<CurrencyRate> getRateChangesForDateComparedWithYesterday(Date date);
+  List<CurrencyRate> getRateChangesForDateComparedWithPreviousDay(Date date);
   
 }

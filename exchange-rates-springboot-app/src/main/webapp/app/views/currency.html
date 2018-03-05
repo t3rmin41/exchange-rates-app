@@ -1,7 +1,14 @@
-<div class="row" data-ng-controller="CurrencyController">
+<div class="row" data-ng-controller="CurrencyController as $ctrl">
+  <div class="alert alert-danger" ng-show="errorMessage"> {{ errorMessage }} </div>
   <div class="form-group">
     <input type="text" class="form-control" id="currencysearch" placeholder="Search currencies" data-ng-model="currencysearch" />
   </div>
+  <div ng-hide="dataLoaded" class="preloader inline-spinner ng-hide" style="margin:345px auto;">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+  </div>
+  <div ng-show="dataLoaded" class="row">
   <table class="table table-striped table-hover">
     <tbody>
       <tr>
@@ -9,6 +16,7 @@
         <th>Description EN</th>
         <th>Description LT</th>
       </tr>
+      
       <tr data-ng-repeat="currency in currencies | filter:currencysearch" >
         <td>{{currency.code}}</td>
         <td>{{currency.descriptions[0].description}}</td>
@@ -16,7 +24,10 @@
       </tr>
     </tbody>
   </table>
+  <!-- 
   <div class="form-group">
-    <button ng-click="getAllCurrencies()" class="btn btn-primary">Get all currencies</button>
+    <button ng-click="$ctrl.getAllCurrencies()" class="btn btn-primary">Get all currencies</button>
+  </div>
+  -->
   </div>
 </div>
