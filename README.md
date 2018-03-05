@@ -33,8 +33,8 @@ For the API documentation Swagger library is used which allows to create REST AP
 
 Different ports are configured for different branches:
 
-dev -    8802
-test -   8801
-master - 8800
+- dev -    8802
+- test -   8801
+- master - 8800
 
 On the master branch the application is implemented exactly as in described task (only 1 date input available), the test branch allows user to choose 2 dates to make comparison presentable and easier to see
