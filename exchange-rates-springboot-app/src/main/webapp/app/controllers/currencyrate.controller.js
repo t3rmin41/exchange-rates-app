@@ -53,8 +53,8 @@
       var formattedDate = $scope.datePicked;
       var formattedDateFrom = $scope.datePickedFrom;
       var formattedDateTo = $scope.datePickedTo;
-      ExchangeRateService.getAllCurrencyRateChangesForDate(formattedDate, getCurrencyRatesSuccessCb, getCurrencyRatesErrorCb);
-      //ExchangeRateService.getAllCurrencyRateChangesForDifferentDates(formattedDateFrom, formattedDateTo, getCurrencyRatesSuccessCb, getCurrencyRatesErrorCb);
+      //ExchangeRateService.getAllCurrencyRateChangesForDate(formattedDate, getCurrencyRatesSuccessCb, getCurrencyRatesErrorCb);
+      ExchangeRateService.getAllCurrencyRateChangesForDifferentDates(formattedDateFrom, formattedDateTo, getCurrencyRatesSuccessCb, getCurrencyRatesErrorCb);
     }
 
     var getCurrencyRatesSuccessCb = function(data, status, headers) {
