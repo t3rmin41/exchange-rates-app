@@ -70,8 +70,8 @@
 
     ctrl.getAllCurrencyRateChanges = function() {
       $scope.dataLoaded = false;
-      var formattedDateFrom = $scope.datePickedFrom.toISOString().slice(0, 10);
-      var formattedDateTo = $scope.datePickedTo.toISOString().slice(0, 10);
+      var formattedDateFrom = toJSONLocal($scope.datePickedFrom);
+      var formattedDateTo = toJSONLocal($scope.datePickedTo);
       ExchangeRateService.getAllCurrencyRateChangesForDifferentDates(formattedDateFrom, formattedDateTo, getCurrencyRatesSuccessCb, getCurrencyRatesErrorCb);
     }
 
@@ -91,5 +91,12 @@
         $scope.errors[error.field] = error.errorMessage;
       });
     }
+    
+    var toJSONLocal = function(date) {
+      var local = new Date(date);
+      local.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+      return local.toJSON().slice(0, 10);
+    }
+
   }
 })();
