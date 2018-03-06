@@ -15,44 +15,35 @@
     
     $scope.dataLoaded = true;
     $scope.currencyRates = [];
-    $scope.datePicked = "";
-    $scope.datePickedFrom = "";
-    $scope.datePickedTo = "";
 
-    $scope.errorMessage = undefined;
-    $scope.errors = undefined;
-
-    $scope.opened = true;
+    var firstDay = new Date(2014, 0, 1);
+    $scope.dateFormat = 'yyyy-MM-dd';
     
-    $scope.status = {
-        opened: false
-    }
-
-    $scope.myDate = new Date();
-    
-    ctrl.open = function($event) {
-        $event.preventDefault();
-        $event.stopPropagation();
-        $scope.opened = true;
-        $scope.status.opened = true;
-        ctrl.opened = true;
-        console.log("Datepicker clicked")
-        //$scope.$parent.opened = true;
-        //$timeout(function () {
-        //    $scope.opened = true;
-        //});
-        //
+    $scope.datePicked = new Date(2014, 0, 1);
+    $scope.datePickedOptions = {
+      formatYear: 'yy',
+      startingDay: 1,
+      minDate: firstDay,
+      maxDate: new Date(2014, 11, 31),
+      showWeeks: false
     };
-
+    $scope.datePickedPopup = {
+            opened: false
+    };
+    ctrl.openDatePicked = function($event) {
+      $event.preventDefault();
+      $event.stopPropagation();
+      $scope.datePickedPopup.opened = !$scope.datePickedPopup.opened;
+    };
+    
+    
     ctrl.$onInit = function() {
       //console.log('CurrencyRateController initialized');
     };
 
     ctrl.getAllCurrencyRateChanges = function() {
       $scope.dataLoaded = false;
-      var formattedDate = $scope.datePicked;
-      var formattedDateFrom = $scope.datePickedFrom;
-      var formattedDateTo = $scope.datePickedTo;
+      var formattedDate = toJSONLocal($scope.datePicked);
       ExchangeRateService.getAllCurrencyRateChangesForDate(formattedDate, getCurrencyRatesSuccessCb, getCurrencyRatesErrorCb);
       //ExchangeRateService.getAllCurrencyRateChangesForDifferentDates(formattedDateFrom, formattedDateTo, getCurrencyRatesSuccessCb, getCurrencyRatesErrorCb);
     }
@@ -73,5 +64,12 @@
         $scope.errors[error.field] = error.errorMessage;
       });
     }
+    
+    var toJSONLocal = function(date) {
+      var local = new Date(date);
+      local.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+      return local.toJSON().slice(0, 10);
+    }
+    
   }
 })();
