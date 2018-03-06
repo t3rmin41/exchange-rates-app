@@ -50,11 +50,11 @@ public class CurrencyRateMapperImpl implements CurrencyRateMapper, RequestValida
   public List<CurrencyRate> getRateChangesForDateComparedWithPreviousDay(Date date) {
     validateRequest(date, "", "");
 
-    //List<CurrencyRate> before = getCurrencyRatesForDate(getPreviousDay(date));
-    //List<CurrencyRate> after = getCurrencyRatesForDate(date);
+    List<CurrencyRate> before = getCurrencyRatesForDate(getPreviousDay(date));
+    List<CurrencyRate> after = getCurrencyRatesForDate(date);
 
-    List<CurrencyRate> before = generateListBefore();
-    List<CurrencyRate> after = generateListAfter();
+    //List<CurrencyRate> before = generateListBefore();
+    //List<CurrencyRate> after = generateListAfter();
 
     for (int i = 0; i < after.size(); i++) {      // in case we have some sloppy third-party webservice which returns different count of currencies 
       for (int j = 0; j < before.size(); j++) {   // and different currency order for each API call - let's have 2 "for" loops to iterate through each currency 

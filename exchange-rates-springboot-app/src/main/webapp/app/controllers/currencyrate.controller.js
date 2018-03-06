@@ -13,36 +13,56 @@
 
     ctrl.opened = false;
     
-    $scope.dataLoaded = true;
     $scope.currencyRates = [];
-    $scope.datePicked = "";
-    $scope.datePickedFrom = "";
-    $scope.datePickedTo = "";
+    
+    $scope.dataLoaded = true;
+
+    var firstDay = new Date(2014, 0, 1);
+    $scope.dateFormat = 'yyyy-MM-dd';
+    
+    $scope.datePickedFrom = new Date(2014, 0, 1);
+    $scope.dateFromOptions = {
+      formatYear: 'yy',
+      startingDay: 1,
+      minDate: firstDay,
+      maxDate: new Date(2014, 11, 31),
+      showWeeks: false
+    };
+    $scope.dateFromPopup = {
+            opened: false
+    };
+    ctrl.openDateFrom = function($event) {
+      $event.preventDefault();
+      $event.stopPropagation();
+      $scope.dateFromPopup.opened = !$scope.dateFromPopup.opened;
+    };
+    
+    $scope.datePickedTo = new Date(2014, 1, 1);
+    $scope.dateToOptions = {
+      formatYear: 'yy',
+      startingDay: 1,
+      minDate: firstDay,
+      maxDate: new Date(2014, 11, 31),
+      showWeeks: false
+    };
+    
+    $scope.dateToPopup = {
+      opened: false
+    };
+    ctrl.openDateTo = function() {
+      $scope.dateToPopup.opened = !$scope.dateToPopup.opened;
+    };
+
+    ctrl.changeDateToMinDate = function(dateFrom) {
+        if (null != dateFrom && undefined != dateFrom) {
+            var dateToMinDate = new Date(dateFrom);
+            $scope.dateToOptions.minDate = dateToMinDate;
+            $scope.datePickedTo = dateToMinDate;
+        }
+    };
 
     $scope.errorMessage = undefined;
     $scope.errors = undefined;
-
-    $scope.opened = true;
-    
-    $scope.status = {
-        opened: false
-    }
-
-    $scope.myDate = new Date();
-    
-    ctrl.open = function($event) {
-        $event.preventDefault();
-        $event.stopPropagation();
-        $scope.opened = true;
-        $scope.status.opened = true;
-        ctrl.opened = true;
-        console.log("Datepicker clicked")
-        //$scope.$parent.opened = true;
-        //$timeout(function () {
-        //    $scope.opened = true;
-        //});
-        //
-    };
 
     ctrl.$onInit = function() {
       //console.log('CurrencyRateController initialized');
@@ -50,10 +70,8 @@
 
     ctrl.getAllCurrencyRateChanges = function() {
       $scope.dataLoaded = false;
-      var formattedDate = $scope.datePicked;
-      var formattedDateFrom = $scope.datePickedFrom;
-      var formattedDateTo = $scope.datePickedTo;
-      //ExchangeRateService.getAllCurrencyRateChangesForDate(formattedDate, getCurrencyRatesSuccessCb, getCurrencyRatesErrorCb);
+      var formattedDateFrom = $scope.datePickedFrom.toISOString().slice(0, 10);
+      var formattedDateTo = $scope.datePickedTo.toISOString().slice(0, 10);
       ExchangeRateService.getAllCurrencyRateChangesForDifferentDates(formattedDateFrom, formattedDateTo, getCurrencyRatesSuccessCb, getCurrencyRatesErrorCb);
     }
 
