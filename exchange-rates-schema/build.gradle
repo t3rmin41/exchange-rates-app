@@ -30,27 +30,28 @@ task genJaxb {
     ext.sourcesDir = "${projectDir}/generated/sources/jaxb"
     ext.classesDir = "${projectDir}/generated/classes/jaxb"
     ext.schemaDir = "${projectDir}/generated/contracts/exchange-rates"
+    ext.argsLine = "-XDignore.symbol.file"
 
     outputs.dir classesDir
 
     doLast() {
         project.ant {
-            taskdef name: "xjc", classname: "com.sun.tools.xjc.XJCTask",
-                    classpath: configurations.jaxb.asPath
+            taskdef name: "xjc", classname: "com.sun.tools.xjc.XJCTask", classpath: configurations.jaxb.asPath
             mkdir(dir: sourcesDir)
             mkdir(dir: classesDir)
 
             xjc(destdir: sourcesDir) {
                 schema(dir: schemaDir, includes: "**/*.wsdl")
-				//schema(dir: schemaDir, includes: "**/*.xsd")
-                arg(value: "-wsdl")
+                arg(line: "-wsdl")
                 produces(dir: sourcesDir, includes: "**/*.java")
             }
 
             javac(destdir: classesDir, source: 1.8, target: 1.8, debug: true,
                     debugLevel: "lines,vars,source",
                     classpath: configurations.jaxb.asPath,
-                    includeantruntime: "false") {
+                    includeAntRuntime: "false",
+                    encoding: "UTF-8"
+                 ) {
                 src(path: sourcesDir)
                 include(name: "**/*.java")
                 include(name: "*.java")
