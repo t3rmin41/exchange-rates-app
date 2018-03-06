@@ -4,7 +4,28 @@
     <div class="form-group">
       <input type="text" class="form-control" id="currencyratesearch" placeholder="Search currency rates" data-ng-model="currencyratesearch" />
     </div>
-    <div class="row">
+  </div>
+  <div class="row">
+    <!-- 
+    <div class="col-xs-3">
+      <div class="form-group" ng-class="{ 'has-error' : errors['datePicked'] }">
+        <label class="control-label" for="txtDate">Date Picked:</label>
+          <p class="input-group" style="width:200px;">
+            <input type="text" class="form-control" is-open="datePickedPopup.opened" ng-model="datePicked"
+                   uib-datepicker-popup="{{dateFormat}}" 
+                   datepicker-options="datePickedOptions"
+                   close-text="Close"
+                   popup-placement="bottom-left" on-open-focus="false" 
+                   ng-change="$ctrl.changeDateToMinDate(datePicked)"
+                   placeholder="yyyy-MM-dd"/>
+            <span class="input-group-btn">
+               <button type="button" ng-click="$ctrl.openDatePicked($event)" class="btn btn-default"><i class="glyphicon glyphicon-calendar"></i></button>
+           </span>
+          </p>
+          <p class="help-block" ng-show="errors['datePicked']"> {{ errors['datePicked'] }} </p>
+      </div>
+    </div>
+    -->
     <div class="col-xs-3">
       <div class="form-group" ng-class="{ 'has-error' : errors['datePickedFrom'] }">
         <label class="control-label" for="txtDate">Date from:</label>

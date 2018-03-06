@@ -11,15 +11,29 @@
 
     var ctrl = this;
 
-    ctrl.opened = false;
-    
     $scope.currencyRates = [];
-    
-    $scope.dataLoaded = true;
-
+	$scope.dataLoaded = true;
+	
     var firstDay = new Date(2014, 0, 1);
     $scope.dateFormat = 'yyyy-MM-dd';
     
+    $scope.datePicked = new Date(2014, 0, 1);
+    $scope.datePickedOptions = {
+	  formatYear: 'yy',
+      startingDay: 1,
+      minDate: firstDay,
+      maxDate: new Date(2014, 11, 31),
+      showWeeks: false
+    };
+	$scope.datePickedPopup = {
+            opened: false
+    };
+    ctrl.openDatePicked = function($event) {
+      $event.preventDefault();
+      $event.stopPropagation();
+      $scope.datePickedPopup.opened = !$scope.datePickedPopup.opened;
+    };
+
     $scope.datePickedFrom = new Date(2014, 0, 1);
     $scope.dateFromOptions = {
       formatYear: 'yy',
@@ -45,11 +59,12 @@
       maxDate: new Date(2014, 11, 31),
       showWeeks: false
     };
-    
     $scope.dateToPopup = {
       opened: false
     };
-    ctrl.openDateTo = function() {
+    ctrl.openDateTo = function($event) {
+	  $event.preventDefault();
+      $event.stopPropagation();
       $scope.dateToPopup.opened = !$scope.dateToPopup.opened;
     };
 
@@ -70,8 +85,10 @@
 
     ctrl.getAllCurrencyRateChanges = function() {
       $scope.dataLoaded = false;
-      var formattedDateFrom = toJSONLocal($scope.datePickedFrom);
+      var formattedDate = toJSONLocal($scope.datePicked);
+	  var formattedDateFrom = toJSONLocal($scope.datePickedFrom);
       var formattedDateTo = toJSONLocal($scope.datePickedTo);
+      //ExchangeRateService.getAllCurrencyRateChangesForDate(formattedDate, getCurrencyRatesSuccessCb, getCurrencyRatesErrorCb);
       ExchangeRateService.getAllCurrencyRateChangesForDifferentDates(formattedDateFrom, formattedDateTo, getCurrencyRatesSuccessCb, getCurrencyRatesErrorCb);
     }
 
@@ -97,6 +114,5 @@
       local.setMinutes(date.getMinutes() - date.getTimezoneOffset());
       return local.toJSON().slice(0, 10);
     }
-
   }
 })();
