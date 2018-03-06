@@ -1,12 +1,10 @@
 <div data-ng-controller="CurrencyRateController as $ctrl">
-
-
   <div class="row">
     <div class="alert alert-danger" ng-show="errorMessage"> {{ errorMessage }} </div>
     <div class="form-group">
       <input type="text" class="form-control" id="currencyratesearch" placeholder="Search currency rates" data-ng-model="currencyratesearch" />
     </div>
-
+    <!-- 
     <div class="col-xs-3">
       <div class="form-group" ng-class="{ 'has-error' : errors['datePicked'] }">
         <label class="control-label" for="txtDate">Date Picked:</label>
@@ -25,7 +23,43 @@
           <p class="help-block" ng-show="errors['datePicked']"> {{ errors['datePicked'] }} </p>
       </div>
     </div>
-    
+    -->
+    <div class="row">
+    <div class="col-xs-3">
+      <div class="form-group" ng-class="{ 'has-error' : errors['datePickedFrom'] }">
+        <label class="control-label" for="txtDate">Date from:</label>
+          <p class="input-group" style="width:200px;">
+            <input type="text" class="form-control" is-open="dateFromPopup.opened" ng-model="datePickedFrom"
+                   uib-datepicker-popup="{{dateFormat}}" 
+                   datepicker-options="dateFromOptions"
+                   close-text="Close"
+                   popup-placement="bottom-left" on-open-focus="false" 
+                   ng-change="$ctrl.changeDateToMinDate(datePickedFrom)"
+                   placeholder="yyyy-MM-dd"/>
+            <span class="input-group-btn">
+               <button type="button" ng-click="$ctrl.openDateFrom($event)" class="btn btn-default"><i class="glyphicon glyphicon-calendar"></i></button>
+           </span>
+          </p>
+          <p class="help-block" ng-show="errors['datePickedFrom']"> {{ errors['datePickedFrom'] }} </p>
+      </div>
+    </div>
+    <div class="col-xs-3">
+      <div class="form-group" ng-class="{ 'has-error' : errors['datePickedTo'] }">
+        <label class="control-label" for="txtDate">Date to:</label>
+          <p class="input-group" style="width:200px;">
+            <input type="text" class="form-control" is-open="dateToPopup.opened" ng-model="datePickedTo"
+                   uib-datepicker-popup="{{dateFormat}}" 
+                   datepicker-options="dateToOptions"
+                   close-text="Close"
+                   popup-placement="bottom-left" on-open-focus="false"
+                   placeholder="yyyy-MM-dd"/>
+            <span class="input-group-btn">
+               <button type="button" ng-click="$ctrl.openDateTo($event)" class="btn btn-default"><i class="glyphicon glyphicon-calendar"></i></button>
+           </span>
+          </p>
+          <p class="help-block" ng-show="errors['datePickedTo']"> {{ errors['datePickedTo'] }} </p>
+      </div>
+    </div>
   </div>
   <div class="row">
     <div class="form-group">

@@ -9,6 +9,7 @@ buildscript {
         springWsVersion = '2.4.2.RELEASE'
     }
     repositories {
+        mavenLocal()
         mavenCentral()
     }
     dependencies {
@@ -46,9 +47,20 @@ repositories {
 }
 
 configurations.all {
-   exclude group: "commons-logging", module: "commons-logging"
+    exclude group: "commons-logging", module: "commons-logging"
 }
 
+compileJava {
+    options.compilerArgs += ["-XDignore.symbol.file"]
+    options.fork = true
+    options.forkOptions.executable = 'javac'
+}
+
+compileTestJava {
+    options.compilerArgs += ["-XDignore.symbol.file"]
+    options.fork = true
+    options.forkOptions.executable = 'javac'
+}
 
 dependencies {
     compile('org.springframework.boot:spring-boot-starter-web')
