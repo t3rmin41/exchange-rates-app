@@ -152,15 +152,15 @@ public class CurrencyRateMapperImpl implements CurrencyRateMapper, RequestValida
   }
   
   private Date getFirstValidDate() {
-    Calendar lastValidCalendar = new GregorianCalendar();
-    lastValidCalendar.set(Calendar.YEAR, 1993);
-    lastValidCalendar.set(Calendar.MONTH, 5);
-    lastValidCalendar.set(Calendar.DAY_OF_MONTH, 25);
-    lastValidCalendar.set(Calendar.HOUR_OF_DAY, 0);
-    lastValidCalendar.set(Calendar.MINUTE, 0);
-    lastValidCalendar.set(Calendar.SECOND, 0);
-    lastValidCalendar.set(Calendar.MILLISECOND, 0);
-    return lastValidCalendar.getTime();
+    Calendar firstValidCalendar = new GregorianCalendar();
+    firstValidCalendar.set(Calendar.YEAR, 1993);
+    firstValidCalendar.set(Calendar.MONTH, 5);
+    firstValidCalendar.set(Calendar.DAY_OF_MONTH, 25);
+    firstValidCalendar.set(Calendar.HOUR_OF_DAY, 0);
+    firstValidCalendar.set(Calendar.MINUTE, 0);
+    firstValidCalendar.set(Calendar.SECOND, 0);
+    firstValidCalendar.set(Calendar.MILLISECOND, 0);
+    return firstValidCalendar.getTime();
   }
   
   private List<CurrencyRate> generateListBefore() {
