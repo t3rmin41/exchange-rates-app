@@ -81,7 +81,7 @@ dependencies {
 	    //print "MavenArtifact " println(MavenArtifact)
         //print "exchange-rates-contract libsDir " println("$libsDir")
         //print "project " println(project.getAllTasks(true))
-        //compile files("$libsDir/exchange-rates-contract-0.0.1.jar")
+        compile files("$libsDir/exchange-rates-contract-0.0.1.jar")
 	}
 	
     // Logback
