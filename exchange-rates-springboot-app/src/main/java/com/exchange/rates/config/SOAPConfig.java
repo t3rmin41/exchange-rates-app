@@ -50,6 +50,7 @@ public class SOAPConfig {
     //HttpComponentsMessageSender messageSender = new HttpComponentsMessageSender();
     //UsernamePasswordCredentials credentials = new UsernamePasswordCredentials("user", "secret");
     //messageSender.setCredentials(credentials);
+    //template.setMessageSender(messageSender);
     return template;
   }
 
