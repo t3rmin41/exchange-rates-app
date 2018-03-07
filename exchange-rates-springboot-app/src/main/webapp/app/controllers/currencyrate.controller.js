@@ -14,14 +14,14 @@
     $scope.currencyRates = [];
 	$scope.dataLoaded = true;
 	
-    var firstDay = new Date(2014, 0, 1);
+    var firstDay = new Date(1993, 5, 25);
     $scope.dateFormat = 'yyyy-MM-dd';
     
     $scope.datePicked = new Date(2014, 0, 1);
     $scope.datePickedOptions = {
 	  formatYear: 'yy',
       startingDay: 1,
-      minDate: firstDay,
+      minDate: new Date(1993, 5, 26),
       maxDate: new Date(2014, 11, 31),
       showWeeks: false
     };

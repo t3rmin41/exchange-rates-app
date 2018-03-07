@@ -99,6 +99,9 @@ public class CurrencyRateMapperImpl implements CurrencyRateMapper, RequestValida
     if (requestedDate.after(getLastValidDate())) {
       errors.add(new ErrorField(prefix+"datePicked"+suffix, "Date must be before 2015-01-01"));
     }
+    if (requestedDate.before(getFirstValidDate())) {
+      errors.add(new ErrorField(prefix+"datePicked"+suffix, "Date must be after or equal to 1993-06-25"));
+    }
     if (errors.size() > 0) {
       throw new WrongRequestException("Wrong date requested", errors);
     }
@@ -145,6 +148,18 @@ public class CurrencyRateMapperImpl implements CurrencyRateMapper, RequestValida
     lastValidCalendar.set(Calendar.MINUTE, 59);
     lastValidCalendar.set(Calendar.SECOND, 59);
     lastValidCalendar.set(Calendar.MILLISECOND, 999);
+    return lastValidCalendar.getTime();
+  }
+  
+  private Date getFirstValidDate() {
+    Calendar lastValidCalendar = new GregorianCalendar();
+    lastValidCalendar.set(Calendar.YEAR, 1993);
+    lastValidCalendar.set(Calendar.MONTH, 5);
+    lastValidCalendar.set(Calendar.DAY_OF_MONTH, 25);
+    lastValidCalendar.set(Calendar.HOUR_OF_DAY, 0);
+    lastValidCalendar.set(Calendar.MINUTE, 0);
+    lastValidCalendar.set(Calendar.SECOND, 0);
+    lastValidCalendar.set(Calendar.MILLISECOND, 0);
     return lastValidCalendar.getTime();
   }
   
