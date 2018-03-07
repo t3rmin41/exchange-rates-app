@@ -30,7 +30,6 @@ task genJaxb {
     ext.sourcesDir = "${projectDir}/generated/sources/jaxb"
     ext.classesDir = "${projectDir}/generated/classes/jaxb"
     ext.schemaDir = "${projectDir}/generated/contracts/exchange-rates"
-    ext.argsLine = "-XDignore.symbol.file"
 
     outputs.dir classesDir
 
