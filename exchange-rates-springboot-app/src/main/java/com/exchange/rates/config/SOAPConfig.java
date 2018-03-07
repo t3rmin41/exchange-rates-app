@@ -47,11 +47,15 @@ public class SOAPConfig {
     
     template.afterPropertiesSet();
 
-    //HttpComponentsMessageSender messageSender = new HttpComponentsMessageSender();
-    //UsernamePasswordCredentials credentials = new UsernamePasswordCredentials("user", "secret");
-    //messageSender.setCredentials(credentials);
-    //template.setMessageSender(messageSender);
+    //template.setMessageSender(defaultMwMessageSender());
     return template;
   }
 
+  //@Bean
+  //public HttpComponentsMessageSender defaultMwMessageSender() {
+  //    HttpComponentsMessageSender messageSender = new HttpComponentsMessageSender();
+  //    messageSender.setCredentials(new UsernamePasswordCredentials("user", "secret"));
+  //    return messageSender;
+  //}
+  
 }
