@@ -9,5 +9,10 @@ repositories {
     mavenCentral()
 }
 
-task stage(dependsOn: ['build', 'clean'])
+task copyToLib(type: Copy) {
+    into "$buildDir/lib"
+    from(configurations.compile)
+}
+
+task stage(dependsOn: ['clean', 'build', 'copyToLib'])
 build.mustRunAfter clean
