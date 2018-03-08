@@ -34,6 +34,7 @@ public class CurrencyRateMapperImpl implements CurrencyRateMapper, RequestValida
   
   @Override
   public List<CurrencyRate> getCurrencyRatesForDate(Date date) {
+    validateRequest(date, "", "");
     GetExchangeRatesByDate request = new GetExchangeRatesByDate();
     String dateString = new SimpleDateFormat("yyyy-MM-dd").format(date);
     request.setDate(dateString);
