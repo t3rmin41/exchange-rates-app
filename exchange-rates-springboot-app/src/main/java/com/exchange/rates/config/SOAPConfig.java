@@ -46,7 +46,16 @@ public class SOAPConfig {
     template.setUnmarshaller(marshaller);
     
     template.afterPropertiesSet();
+
+    //template.setMessageSender(defaultMwMessageSender());
     return template;
   }
 
+  //@Bean
+  //public HttpComponentsMessageSender defaultMwMessageSender() {
+  //    HttpComponentsMessageSender messageSender = new HttpComponentsMessageSender();
+  //    messageSender.setCredentials(new UsernamePasswordCredentials("user", "secret"));
+  //    return messageSender;
+  //}
+  
 }
