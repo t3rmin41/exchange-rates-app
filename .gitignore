@@ -2,6 +2,8 @@
 .classpath
 .project
 .settings/
+#Ignore IntelliJ files
+.idea/
 #Ignore MacOS files
 .DS_Store
 #Ignore Maven /target directory
