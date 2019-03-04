@@ -9,6 +9,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.List;
+
+import com.exchange.rates.domain.ExchangeRate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -111,8 +113,9 @@ public class CurrencyRateMapperImpl implements CurrencyRateMapper, RequestValida
 
   private List<CurrencyRate> convertExternalWebserviceResponseToCurrenyRates(GetExchangeRatesByDateResponse response, Date date) {
     List<CurrencyRate> rates = new LinkedList<CurrencyRate>();
-    
+
     List<Object> content = response.getGetExchangeRatesByDateResult().getContent();
+    List<ExchangeRate> exchangeRates = (List<ExchangeRate>) ((ElementImpl) ((Object) response.getGetExchangeRatesByDateResult().getContent().get(0))).getChildNodes();
     Object firstElement = content.get(0);
     ElementImpl element = (ElementImpl) firstElement;
     NodeList ratesNodeList = element.getChildNodes();
