@@ -36,7 +36,7 @@ public class SOAPConnectorTest {
   @Autowired
   private SOAPConnector soapConnector;
 
-  @Ignore
+
   @Test
   public void checkExchangeRatesByDate() {
     GetExchangeRatesByDate request = new GetExchangeRatesByDate();
