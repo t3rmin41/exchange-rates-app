@@ -23,7 +23,7 @@ public class SOAPConfig {
   
   public static final String SOAP_WEBSERVICE_URL = "http://old.lb.lt/webservices/ExchangeRates/ExchangeRates.asmx?WSDL";
 
-  @Bean
+  @Bean(name = "soapTemplate")
   public WebServiceTemplate webServiceTemplate() {
     SaajSoapMessageFactory messageFactory = null;
     try {
